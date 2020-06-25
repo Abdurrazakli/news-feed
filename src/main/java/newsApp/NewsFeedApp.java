@@ -6,6 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class NewsFeedApp {
     public static void main(String[] args) {
-        SpringApplication.run(NewsFeedApp.class);
+        SpringApplication.run(NewsFeedApp.class,args);
     }
 }
