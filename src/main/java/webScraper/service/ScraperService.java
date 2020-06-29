@@ -18,7 +18,6 @@ import java.util.stream.Stream;
 
 @Service
 public class ScraperService {
-
     private final List<String> newsSites = new ArrayList<>(Arrays.asList("www.bbc.com/news/world"));
 
     private <A,T> List<A> fold(List<T> data , Function<T,A> f){
@@ -30,6 +29,7 @@ public class ScraperService {
         });
         return doc;
     }
+
 
      public void scrap(){
          Function<String, Document> f = new Function<String, Document>() {
@@ -44,7 +44,7 @@ public class ScraperService {
                  f
          );
 
-         throw new RuntimeException("Not finished yet. ScraperService => scrap()");
+         throw new RuntimeException("ScraperService => scrap()");
 
      }
 
