@@ -1,4 +1,4 @@
-package app.webScraper.service;
+package newsApp.services.scraperService;
 
 
 import lombok.SneakyThrows;
@@ -24,6 +24,10 @@ public class ScraperService {
             }catch (Exception ignored){ }
         });
         return doc;
+    }
+
+    private void process(){
+        throw new RuntimeException("");
     }
 
 
