@@ -1,4 +1,4 @@
-package newsApp.models;
+package app.newsApp.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

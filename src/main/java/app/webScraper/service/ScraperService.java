@@ -1,19 +1,15 @@
-package webScraper.service;
+package app.webScraper.service;
 
 
 import lombok.SneakyThrows;
-import org.graalvm.compiler.replacements.arraycopy.ArrayCopyCallNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 
 @Service

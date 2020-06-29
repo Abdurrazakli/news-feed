@@ -1,4 +1,4 @@
-package newsApp.controller;
+package app.newsApp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
