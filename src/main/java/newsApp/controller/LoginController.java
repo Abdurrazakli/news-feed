@@ -6,7 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/")
+
 public class LoginController {
+    /**
+     *http://localhost:8080/
+     */
     @GetMapping
     String getIndexPage(){
         return "index";
