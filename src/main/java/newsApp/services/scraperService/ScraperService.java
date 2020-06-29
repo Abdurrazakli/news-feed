@@ -1,4 +1,4 @@
-package app.webScraper.service;
+package newsApp.services.scraperService;
 
 
 import lombok.SneakyThrows;
