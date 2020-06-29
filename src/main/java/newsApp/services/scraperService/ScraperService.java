@@ -26,6 +26,10 @@ public class ScraperService {
         return doc;
     }
 
+    private void process(){
+        throw new RuntimeException("");
+    }
+
 
      public void scrap(){
          Function<String, Document> f = new Function<String, Document>() {
