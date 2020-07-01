@@ -2,51 +2,76 @@ package newsApp.services.scraperService;
 
 
 import lombok.SneakyThrows;
+import newsApp.models.scraperModel.ScrapData;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
+import java.util.*;
+import java.util.function.BiFunction;
 
 
 @Service
 public class ScraperService {
-    private final List<String> newsSites = new ArrayList<>(Arrays.asList("www.bbc.com/news/world"));
 
-    private <A,T> List<A> fold(List<T> data , Function<T,A> f){
-        List<A> doc = new ArrayList<>();
-        data.stream().parallel().forEach(url->{
+
+    private final Map<String, String> data = new HashMap<String,String>(){{
+        put("https://en.trend.az/","path #to .card");
+        put("https://edition.cnn.com/","path #to .card");
+        put("https://news.az/","path #to .card");
+        put("https://www.huffpost.com/","path #to .card");
+        put("https://www.nytimes.com/","path #to .card");
+        put("https://www.foxnews.com/","path #to .card");
+        put("https://www.washingtonpost.com/","path #to .card");
+        put("https://www.kyivpost.com/","path #to .card");
+        put("https://www.bbc.com/news","path #to .card");
+    }};
+
+    /**
+     * generic helper functions
+     *
+     */
+    private <T> List<T> toList(Set<T> keySet) {
+        return new ArrayList<>(keySet);
+    }
+
+    /**
+     * generic main functions
+     *
+     */
+
+    private <S,R> List<R> fold(Map<S,S> data , BiFunction<S,S,R> f){
+        List<R> result = new ArrayList<>();
+        data.entrySet().stream().parallel().forEach(url->{
             try {
-                doc.add(f.apply(url));
+                result.add(f.apply(url.getKey(),url.getValue()));
             }catch (Exception ignored){ }
         });
-        return doc;
+        return result;
     }
 
-    private void process(){
-        throw new RuntimeException("");
-    }
-
-
+    /**
+     *  parent function
+     */
      public void scrap(){
-         Function<String, Document> f = new Function<String, Document>() {
+         BiFunction<String, String, ScrapData> f = new BiFunction<String, String, ScrapData>() {
              @SneakyThrows
              @Override
-             public Document apply(String url){
-                 return Jsoup.connect(url).get();
+             public ScrapData apply(String url, String path) {
+                 return new ScrapData(Jsoup.connect(url).get(),path);
              }
          };
-         List<Document> listOfDocuments = fold(
-                 newsSites,
+         List<ScrapData> fold = fold(
+                 data,
                  f
          );
 
-         throw new RuntimeException("ScraperService => scrap()");
+         getNews(fold);
 
+         throw new RuntimeException("ScraperService => scrap()");
      }
 
-
+    private void getNews(List<ScrapData> fold) {
+        fold.stream().map(s -> s.getDocument().select(s.getPathToNews()))
+                .forEach(System.out::println);
+    }
 }
