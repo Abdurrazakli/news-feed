@@ -2,14 +2,18 @@ package newsApp.services.scraperService;
 
 
 import lombok.SneakyThrows;
-import newsApp.models.scraperModel.ScrapData;
+import newsApp.models.scraperModel.DocumentAndSkeleton;
 import newsApp.models.scraperModel.ScraperSkeleton;
 import newsApp.utils.webScraperUtils.NewsSitesSkeleton;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -29,11 +33,11 @@ public class ScraperService {
      *
      */
 
-    private <S,R> List<R> fold(Map<S,S> data , BiFunction<S,S,R> f){
+    private <S,R> List<R> fold(List<S> data , Function<S,R> f){
         List<R> result = new ArrayList<>();
-        data.entrySet().stream().parallel().forEach(url->{
+        data.stream().parallel().forEach(element->{
             try {
-                result.add(f.apply(url.getKey(),url.getValue()));
+                result.add(f.apply(element));
             }catch (Exception ignored){ }
         });
         return result;
@@ -48,20 +52,48 @@ public class ScraperService {
          List<ScraperSkeleton> scraperSkeletons = NewsSitesSkeleton.get();
 
 
-         BiFunction<String, String, ScrapData> f = new BiFunction<String, String, ScrapData>() {
+         Function<ScraperSkeleton, DocumentAndSkeleton> f = new Function<ScraperSkeleton, DocumentAndSkeleton>() {
              @SneakyThrows
              @Override
-             public ScrapData apply(String url, String path) {
-                 return new ScrapData(Jsoup.connect(url).get(),path);
+             public DocumentAndSkeleton apply(ScraperSkeleton skeleton) {
+                 return new DocumentAndSkeleton(Jsoup.connect(skeleton.getWebSite()).get(),skeleton);
              }
          };
+
+         List<DocumentAndSkeleton> folded = fold(
+                 scraperSkeletons,
+                 f
+         );
+
+         getNews(folded);
 
 
          throw new RuntimeException("ScraperService => scrap()");
      }
 
-    private void getNews(List<ScrapData> fold) {
-        fold.stream().map(s -> s.getDocument().select(s.getPathToNews()))
-                .forEach(System.out::println);
+    private void getNews(List<DocumentAndSkeleton> folded) {
+         folded.stream().flatMap(o->
+                 getSection(o).flatMap(sec ->
+                         getContent(o,sec).map(content->{
+                             String title = sec.select(o.getSkeleton().getPathToTitle()).attr("text");  // text?? look back, add attr name too;
+                             throw new IllegalArgumentException("Not finished");
+                         }))
+         )
+
+         .collect(Collectors.toList()); // not sure about data type? might be HashMap
+
     }
+
+    private Stream<Element> getSection(DocumentAndSkeleton documentAndSkeleton){
+         return documentAndSkeleton.getDocument().select(documentAndSkeleton.getSkeleton().getPathToSection()).stream();
+    }
+
+    private Stream<Element> getContent(DocumentAndSkeleton documentAndSkeleton,Element element){
+         return element.select(documentAndSkeleton.getSkeleton().getPathToContent()).stream();
+    }
+
+//   new ScraperSkeleton("https://www.foxnews.com/world","body #wrapper .page .page-content .row .main-content > section",
+//   ".content > article",".m > a > img",".info > header .title > a",".info > header .title > a")
+
+
 }

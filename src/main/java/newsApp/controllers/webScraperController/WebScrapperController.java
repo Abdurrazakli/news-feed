@@ -1,4 +1,4 @@
-package newsApp.controllers.userController;
+package newsApp.controllers.webScraperController;
 
 import lombok.extern.log4j.Log4j2;
 import newsApp.models.newsModel.News;

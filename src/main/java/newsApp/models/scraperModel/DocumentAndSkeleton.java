@@ -8,7 +8,7 @@ import org.jsoup.nodes.Document;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScrapData {
+public class DocumentAndSkeleton {
     private Document document;
-    private String pathToNews;
+    private ScraperSkeleton skeleton;
 }
