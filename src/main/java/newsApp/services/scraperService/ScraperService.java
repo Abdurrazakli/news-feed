@@ -3,6 +3,8 @@ package newsApp.services.scraperService;
 
 import lombok.SneakyThrows;
 import newsApp.models.scraperModel.ScrapData;
+import newsApp.models.scraperModel.ScraperSkeleton;
+import newsApp.utils.webScraperUtils.NewsSitesSkeleton;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +15,6 @@ import java.util.function.BiFunction;
 @Service
 public class ScraperService {
 
-
-    private final Map<String, String> data = new HashMap<String,String>(){{
-        put("https://en.trend.az/","path #to .card");
-        put("https://edition.cnn.com/","path #to .card");
-        put("https://news.az/","path #to .card");
-        put("https://www.huffpost.com/","path #to .card");
-        put("https://www.nytimes.com/","path #to .card");
-        put("https://www.foxnews.com/","path #to .card");
-        put("https://www.washingtonpost.com/","path #to .card");
-        put("https://www.kyivpost.com/","path #to .card");
-        put("https://www.bbc.com/news","path #to .card");
-    }};
 
     /**
      * generic helper functions
@@ -53,6 +43,11 @@ public class ScraperService {
      *  parent function
      */
      public void scrap(){
+
+         // News Skeleton Data
+         List<ScraperSkeleton> scraperSkeletons = NewsSitesSkeleton.get();
+
+
          BiFunction<String, String, ScrapData> f = new BiFunction<String, String, ScrapData>() {
              @SneakyThrows
              @Override
@@ -60,12 +55,7 @@ public class ScraperService {
                  return new ScrapData(Jsoup.connect(url).get(),path);
              }
          };
-         List<ScrapData> fold = fold(
-                 data,
-                 f
-         );
 
-         getNews(fold);
 
          throw new RuntimeException("ScraperService => scrap()");
      }
