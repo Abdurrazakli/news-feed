@@ -10,16 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.util.UUID;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class DetailedNews {
-    @Id
     private UUID id;
-
-    @OneToOne
     private News news;
-
     private String content;
 }

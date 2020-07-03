@@ -2,7 +2,6 @@ package newsApp.models.newsModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -15,14 +14,13 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class News {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private UUID id;
 
     private String title;
     private String newsLink;
     private String source;
+    private String imagePath;
     private LocalDateTime publishedDate;
 }

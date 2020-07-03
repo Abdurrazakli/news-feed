@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsSitesSkeleton {
-    public static List<ScraperSkeleton> get(){
+
+    public static List<ScraperSkeleton> get(){      // forgot password, login with fb, github;Search;
         return new ArrayList<ScraperSkeleton>(){{
             //1
             add(new ScraperSkeleton("https://www.foxnews.com/world","body #wrapper .page .page-content .row .main-content > section",

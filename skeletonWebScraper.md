@@ -1,7 +1,7 @@
 https://www.foxnews.com/world
 body #wrapper .page .page-content .row .main-content section(multiple) .content article(multiple)            ||| .m  a img(src) 						    ||| .info(title) header .title a(href=>news,text=>title) |||
 
-https://www.huffpost.com/ 
+https://www.huffpost.com/
 body .body-wraper .main .front-page-content .row--2 #zone-a section(multiple) .zone__content .card(multiple) ||| .card__image__link .card__image .card__image__src picture img(src) ||| .card__headlines a(href) h3(text=>title)	     |||
 
 https://www.nytimes.com/section/world
