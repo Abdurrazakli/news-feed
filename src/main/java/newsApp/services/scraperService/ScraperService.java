@@ -78,7 +78,7 @@ public class ScraperService {
                         StreamOfContent(o, sec).map(content -> {
                             try {
                                 String title = content.select(o.getSkeleton().getPathToTitle()).text();  // text?? look back, add attr name too;
-                                String image = content.select(o.getSkeleton().getPathToImg()).attr("src");
+                                String image = content.select(o.getSkeleton().getPathToImg()).html();
                                 log.info("image: "+image);
                                 String newsLink = content.select(o.getSkeleton().getPathToNewsLink()).attr("href");
                                 return new News(UUID.randomUUID(), title, newsLink, o.getSkeleton().getWebSite(), image, LocalDateTime.now());
@@ -88,11 +88,12 @@ public class ScraperService {
                             throw new IllegalArgumentException("Not finished");  //FIXME :: not a correct structure
                         }))
         )
+//                .filter(News::isNull)
                 .collect(Collectors.toList());// not sure about data type? might be HashMap; !!!!!!!!!!!!!!!
      }
 
 
-     
+
     private Stream<Element> StreamOfSection(DocumentAndSkeleton documentAndSkeleton){
          return documentAndSkeleton.getDocument().select(documentAndSkeleton.getSkeleton().getPathToSection()).stream();
     }

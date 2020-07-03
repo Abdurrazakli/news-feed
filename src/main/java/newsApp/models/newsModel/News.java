@@ -23,4 +23,10 @@ public class News {
     private String source;
     private String imagePath;
     private LocalDateTime publishedDate;
+
+    public boolean isNull(){
+        return !title.equals("") && !newsLink.equals("") &&
+                !source.equals("") && !imagePath.equals("") &&
+                publishedDate != null;
+    }
 }

@@ -8,7 +8,7 @@ https://www.nytimes.com/section/world
 body #app #site-content #collection-world ol(multiple => not 1st, first 6) li(multiple) article >            ||| figure > a(href) img(src) 					    ||| > div > h2 > a(href) a(text) 			     |||
 
 https://www.kyivpost.com/ukraine-politics/exclusive
-body .maincontent .wrap section(multiple) .main-sect .grid-row  .post-excerpt 				     ||| .img-cont > div(data-img-url)					    ||| .pe-desc .title a(href) > span(text=>title)	     |||
+body .maincontent .wrap section(multiple) .main-sect .grid-row  .post-excerpt 				     ||| .img-cont > div > img(src)					    ||| .pe-desc .title a(href) > span(text=>title)	     |||
 
 https://news.az/
 body .wrapper .main--content >ul(multiple) li(multiple) .post--item >					     |||  a > img(src) 							    ||| .post-info > div > h2 a(href) a(text) 		     ||| 
