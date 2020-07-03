@@ -85,18 +85,14 @@ public class ScraperService {
                             } catch (Exception ignored) {
                                 log.error("Site content exception!");
                             }
-                            throw new IllegalArgumentException("Not finished");  //FIXME :: not correct structure
+                            throw new IllegalArgumentException("Not finished");  //FIXME :: not a correct structure
                         }))
         )
                 .collect(Collectors.toList());// not sure about data type? might be HashMap; !!!!!!!!!!!!!!!
      }
 
 
-
-    //   new ScraperSkeleton("https://www.foxnews.com/world","body #wrapper .page .page-content .row .main-content > section",
-    //   ".content > article",".m > a > img",".info > header .title > a",".info > header .title > a")
-
-
+     
     private Stream<Element> StreamOfSection(DocumentAndSkeleton documentAndSkeleton){
          return documentAndSkeleton.getDocument().select(documentAndSkeleton.getSkeleton().getPathToSection()).stream();
     }
