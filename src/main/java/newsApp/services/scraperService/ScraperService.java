@@ -79,12 +79,13 @@ public class ScraperService {
                             try {
                                 String title = content.select(o.getSkeleton().getPathToTitle()).text();  // text?? look back, add attr name too;
                                 String image = content.select(o.getSkeleton().getPathToImg()).attr("src");
+                                log.info("image: "+image);
                                 String newsLink = content.select(o.getSkeleton().getPathToNewsLink()).attr("href");
                                 return new News(UUID.randomUUID(), title, newsLink, o.getSkeleton().getWebSite(), image, LocalDateTime.now());
                             } catch (Exception ignored) {
                                 log.error("Site content exception!");
                             }
-                            throw new IllegalArgumentException("Not finished");
+                            throw new IllegalArgumentException("Not finished");  //FIXME :: not correct structure
                         }))
         )
                 .collect(Collectors.toList());// not sure about data type? might be HashMap; !!!!!!!!!!!!!!!

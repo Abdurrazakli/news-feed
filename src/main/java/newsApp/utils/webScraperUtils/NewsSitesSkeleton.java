@@ -11,7 +11,7 @@ public class NewsSitesSkeleton {
         return new ArrayList<ScraperSkeleton>(){{
             //1
             add(new ScraperSkeleton("https://www.foxnews.com/world","body #wrapper .page .page-content .row .main-content > section",
-                    ".content > article",".m > a > img",".info > header .title > a",".info > header .title > a")
+                    ".content > article","img",".info > header .title > a",".info > header .title > a")
             );
             //2
 //            add(new ScraperSkeleton()

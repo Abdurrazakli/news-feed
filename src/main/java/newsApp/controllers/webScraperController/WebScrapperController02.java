@@ -23,7 +23,7 @@ public class WebScrapperController02 {
      * http://localhost:8080/v2/scrap
      * @return
      */
-    @GetMapping("/")
+    @GetMapping
     public List<News> handle_news(){
         return service.scrap();
     }
