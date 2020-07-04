@@ -11,7 +11,7 @@ https://www.kyivpost.com/ukraine-politics/exclusive
 body .maincontent .wrap section(multiple) .main-sect .grid-row  .post-excerpt 				     ||| .img-cont > div > img(src)					    ||| .pe-desc .title a(href) > span(text=>title)	     |||
 
 https://news.az/
-body .wrapper .main--content >ul(multiple) li(multiple) .post--item >					     |||  a > img(src) 							    ||| .post-info > div > h2 a(href) a(text) 		     ||| 
+body .wrapper .main--content >ul(multiple) li(multiple) 					     |||.post--item >  a > img(src) 							    ||| .post-info > div > h2 a(href) a(text) 		     ||| 
 
 https://en.trend.az/latest/
 body .container .page-content .category-news-wrapper(multiple) .category-article(multiple) .article-link  >  ||| figure > img(src)						    ||| .article-title(text)				     |||

@@ -79,8 +79,9 @@ public class ScraperService {
                         StreamOfContent(o, sec).map(content -> {
                             try {
                                 String title = content.select(o.getSkeleton().getPathToTitle()).text();  // text?? look back, add attr name too;
-                                String image = content.select(o.getSkeleton().getPathToImg()).attr(o.getSkeleton().getImageAttr());
-                                log.info("image: "+image);
+                                String rowImg = content.select(o.getSkeleton().getPathToImg()).attr(o.getSkeleton().getImageAttr());
+                                String image = rowImg.startsWith("http") ? rowImg : o.getSkeleton().getWebSite().substring(0,o.getSkeleton().getWebSite().length()-1).concat(rowImg);
+                                log.info("image: "+content.select(o.getSkeleton().getPathToImg()).html());
                                 String newsLink = content.select(o.getSkeleton().getPathToNewsLink()).attr("href");
                                 return new News(UUID.randomUUID(), title, newsLink, o.getSkeleton().getWebSite(), image, LocalDateTime.now());
                             } catch (Exception ignored) {
