@@ -20,32 +20,47 @@
     <div class="registration-section-container">
         <h1 class="registration-section-container-title">Create An Account</h1>
         <p class="registration-section-container-description">Create your account, it takes less than a minute. If you already have an account - <a href="index.html" class="registration-section-container-description-link">login</a></p>
-        <form action="#" class="registration-section-container-form">
+        <form method="post" class="registration-section-container-form">
             <div class="registration-section-container-form-input-wrapper">
                 <img class="box-icons" src="img/user-icon.svg" alt="User Icon">
-                <label for="full-name"></label>
-                <input class="registration-section-container-form-input" id="full-name" placeholder="Full name" type="text">
+                <label for="fullname"></label>
+                <input class="registration-section-container-form-input" name="fullname" id="fullname" placeholder="Full name" type="text" required>
             </div>
             <div class="registration-section-container-form-input-wrapper">
                 <img class="box-icons" src="img/mail-icon.svg" alt="User Icon">
                 <label for="email"></label>
-                <input class="registration-section-container-form-input" id="email" placeholder="Email address" type="email">
+                <input class="registration-section-container-form-input" name="email" id="email" placeholder="Email address" type="email" required>
             </div>
             <div class="registration-section-container-form-input-wrapper">
                 <img class="box-icons" src="img/lock-icon.svg" alt="User Icon">
                 <label for="password"></label>
-                <input class="registration-section-container-form-input" id="password" placeholder="Password" type="password">
+                <input class="registration-section-container-form-input" name="password" id="password" placeholder="Password" type="password" onkeyup="check()" required>
             </div>
             <div class="registration-section-container-form-input-wrapper mb0">
                 <img class="box-icons" src="img/lock-icon.svg" alt="User Icon">
-                <label for="confirm-password"></label>
-                <input class="registration-section-container-form-input" id="confirm-password" placeholder="Confirm Password" type="password">
+                <label for="confirm_password"></label>
+                <input class="registration-section-container-form-input" id="confirm_password" placeholder="Confirm Password" type="password" onkeyup="check()" required>
+                <span id='message'></span>
             </div>
-            <input type="submit" value="Create account" class="registration-section-container-form-submit">
+            <input type="submit" id="submitbtn" value="Create account" class="registration-section-container-form-submit">
         </form>
     </div>
 </section>
+<script>
+    var check = function() {
 
+        if (document.getElementById('password').value ==
+            document.getElementById('confirm_password').value) {
+            document.getElementById('message').style.color = 'green';
+            document.getElementById('message').innerHTML = 'matching';
+            document.getElementById('submitbtn').disabled = false;
+        } else {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'not matching';
+            document.getElementById('submitbtn').disabled = true;
+        }
+    }
+</script>
 </body>
 
 <!-- Mirrored from www.alexshmyrkov.space/News Feed/registration.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 24 Jun 2020 10:24:57 GMT -->
