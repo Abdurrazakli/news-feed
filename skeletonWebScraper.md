@@ -17,4 +17,4 @@ https://en.trend.az/latest/
 body .container .page-content .category-news-wrapper(multiple) .category-article(multiple) .article-link  >  ||| figure > img(src)						    ||| .article-title(text)				     |||
 
 https://www.washingtonpost.com/business/technology/?nid=top_nav_tech
-body .pb-root .main-content .story-list(multiple) .story-list-story(multiple)				     ||| .story-image >a > img(src)   					    ||| .story-headline > a(href) a(text=>title)	     |||
+body .pb-root .main-content .story-list(multiple) .story-list-story(multiple)				     ||| .story-image > a > img(src)   					    ||| .story-headline > a(href) a(text=>title)	     |||

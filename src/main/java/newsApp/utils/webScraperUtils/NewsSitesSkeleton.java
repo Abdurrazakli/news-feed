@@ -26,12 +26,13 @@ public class NewsSitesSkeleton {
 //                    ".grid-43 .post-excerpt",".img-cont > a > .article-img",".pe-desc .title a","data-img-url",".pe-desc .title a > span")
 //            );
 //            //5
-            add(new ScraperSkeleton("https://news.az/","body .wrapper .main--content .post--items > ul","li",
-                    ".post--item .post--img > a > img" ,".post--item .post--img > a","data-src",".post--item .post--img ,post--info .title > h2 > a")
-            );
-//            //6
-//            add(new ScraperSkeleton()
+//            add(new ScraperSkeleton("https://news.az/","body .wrapper .main--content .post--items > ul","li",
+//                    ".post--item .post--img > a > img" ,".post--item .post--img > a","data-src",".post--item .post--img ,post--info .title > h2 > a")
 //            );
+            //6
+            add(new ScraperSkeleton("https://www.washingtonpost.com/business/technology/?nid=top_nav_tech","body #pb-root .main-content .story-list",
+                    ".story-list-story",".story-image > a > img",".story-headline > h2 > a","src",".story-headline > h2 > a")
+            );
         }};
     }
 }
