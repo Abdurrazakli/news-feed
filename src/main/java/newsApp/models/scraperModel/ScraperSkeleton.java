@@ -14,5 +14,6 @@ public class ScraperSkeleton {
     private String pathToContent;
     private String pathToImg;
     private String pathToNewsLink;
+    private String imageAttr;
     private String pathToTitle;
 }

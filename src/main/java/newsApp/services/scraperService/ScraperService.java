@@ -20,7 +20,8 @@ import java.util.stream.Stream;
 @Log4j2
 @Service
 public class ScraperService {
-
+    final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML," +
+            "like Gecko) Chrome/51.0.2704.103 Safari/537.36";
 
     /**
      * generic helper functions
@@ -60,7 +61,7 @@ public class ScraperService {
              @SneakyThrows
              @Override
              public DocumentAndSkeleton apply(ScraperSkeleton skeleton) {
-                 return new DocumentAndSkeleton(Jsoup.connect(skeleton.getWebSite()).userAgent("Mozila").get(),skeleton);
+                 return new DocumentAndSkeleton(Jsoup.connect(skeleton.getWebSite()).userAgent(USER_AGENT).get(),skeleton);
              }
          };
 
@@ -78,7 +79,7 @@ public class ScraperService {
                         StreamOfContent(o, sec).map(content -> {
                             try {
                                 String title = content.select(o.getSkeleton().getPathToTitle()).text();  // text?? look back, add attr name too;
-                                String image = content.select(o.getSkeleton().getPathToImg()).html();
+                                String image = content.select(o.getSkeleton().getPathToImg()).attr(o.getSkeleton().getImageAttr());
                                 log.info("image: "+image);
                                 String newsLink = content.select(o.getSkeleton().getPathToNewsLink()).attr("href");
                                 return new News(UUID.randomUUID(), title, newsLink, o.getSkeleton().getWebSite(), image, LocalDateTime.now());
