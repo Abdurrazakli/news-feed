@@ -7,12 +7,17 @@ import newsApp.models.newsModel.DetailedNews;
 import newsApp.models.newsModel.News;
 import newsApp.models.scraperModel.DocumentAndSkeleton;
 import newsApp.models.scraperModel.NewsScraperSkeleton;
+import newsApp.repo.newsRepo.DetailedNewsRepo;
+import newsApp.repo.newsRepo.NewsRepo;
 import newsApp.utils.webScraperUtils.NewsSitesSkeleton;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -24,10 +29,18 @@ public class ScraperService {
     private final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML," +
             "like Gecko) Chrome/51.0.2704.103 Safari/537.36";
 
+    private final DetailedNewsRepo detailedNewsRepo;
+    private final NewsRepo newsRepo;
+
+    public ScraperService(DetailedNewsRepo detailedNewsRepo, NewsRepo newsRepo) {
+        this.detailedNewsRepo = detailedNewsRepo;
+        this.newsRepo = newsRepo;
+    }
+
     /**
      *  parent function
      */
-    public Collection<DetailedNews> scrap(){
+    public List<DetailedNews> scrap(){
         List<NewsScraperSkeleton> scraperSkeletons = NewsSitesSkeleton.getNewsSkeleton();
 
         Function<NewsScraperSkeleton, DocumentAndSkeleton<NewsScraperSkeleton>> f = new Function<NewsScraperSkeleton, DocumentAndSkeleton<NewsScraperSkeleton>>() {
@@ -43,26 +56,23 @@ public class ScraperService {
                 f
         );
 
-        HashMap<String, News> news = getNews(folded);
-
-//        filterInDbNews(news);
-
+        List<News> news = getNews(folded);
+//        List<News> newNews = filterWithInDbNews(news);
         List<DetailedNews> detailedNews = getDetailedNews(news);
-
+        saveNewsToDb(detailedNews);
         return detailedNews;
-
-//        throw new IllegalArgumentException("main method in ScrapService: Not implemented yet");
     }
 
-    private HashMap<String, News> filterInDbNews(HashMap<String, News> news) {
-        throw new IllegalArgumentException("Not impl yet");
+    private void writeToDb(){
+        List<DetailedNews> data = scrap();
+        saveNewsToDb(data);
     }
 
 
     /**
      * main Functions
      */
-    private HashMap<String, News> getNews(List<DocumentAndSkeleton<NewsScraperSkeleton>> folded) { // list of news; link=>content; Map<String, DetailedNews> data???
+    private List<News> getNews(List<DocumentAndSkeleton<NewsScraperSkeleton>> folded) { // list of news; link=>content; Map<String, DetailedNews> data???
         return folded.stream().parallel().flatMap(o ->
                 StreamOfSection(o).flatMap(sec ->
                         StreamOfContent(o, sec).map(content -> {
@@ -73,18 +83,18 @@ public class ScraperService {
                                 String rowNewsLink = content.select(o.getSkeleton().getPathToNewsLink()).attr("href");
                                 String newsLink = formatData(rowNewsLink,o.getSkeleton().getDomain());
 
-                                return new News(UUID.randomUUID(), title, newsLink, o.getSkeleton().getAddress(), image, LocalDateTime.now());
+                                return new News(title, newsLink, o.getSkeleton().getAddress(), image, LocalDateTime.now());
                             } catch (Exception ignored) {
                                 log.error("Site content exception!");
                             }
-                            return new News(UUID.randomUUID(),"","","","",LocalDateTime.now());
+                            return new News("","","","",LocalDateTime.now());
                         }))
         )
                 .filter(News::isNull)
-                .collect(Collectors.toMap(News::getNewsLink,Function.identity() , (s, s2) -> s2, HashMap::new));
+                .collect(Collectors.toList());
     }
 
-    private List<DetailedNews> getDetailedNews(HashMap<String, News> news) { // newsLink : news;
+    private List<DetailedNews> getDetailedNews(List<News> news) { // newsLink : news;
 
         HashMap<String, String> newsParagraphPath = NewsSitesSkeleton.getNewsParagraphPath();
 
@@ -96,17 +106,21 @@ public class ScraperService {
             }
         };
         List<DocumentAndSkeleton<News>> fold = fold(
-                new ArrayList<>(news.values()),
+                news,
                 f
         );
 
         return fold.stream().parallel().map(nds->
-            new DetailedNews(UUID.randomUUID(),nds.getSkeleton(),StreamOfParagraphs(nds,newsParagraphPath).map(Element::text).collect(Collectors.joining("\n")))
+            new DetailedNews(nds.getSkeleton(),(String)StreamOfParagraphs(nds,newsParagraphPath).map(Element::text).collect(Collectors.joining("\n")))
         )
         .collect(Collectors.toList());
     }
 
-     /**
+    private void saveNewsToDb(List<DetailedNews> news) {
+        detailedNewsRepo.saveAll(news);
+    }
+
+    /**
      * generic helper function
      *
      */
@@ -126,6 +140,16 @@ public class ScraperService {
     /**
      * Helper Functions
      */
+
+    private List<News> filterWithInDbNews(List<News> fetchedNews) {
+        Page<News> newsFromDb = newsRepo.findAll(PageRequest.of(0, 100));
+
+        if (ChronoUnit.HOURS.between(newsFromDb.getContent().get(1).getPublishedDate(),LocalDateTime.now()) >= 4) return Collections.emptyList();
+
+        return newsFromDb.stream().flatMap(fromDb ->
+                fetchedNews.stream().filter(fromWeb -> !fromWeb.getNewsLink().equals(fromDb.getNewsLink())))
+                .collect(Collectors.toList());
+    }
 
     private Stream<Element> StreamOfParagraphs(DocumentAndSkeleton<News> nds, HashMap<String, String> newsParagraphPath) {
         return nds.getDocument().select(newsParagraphPath.get(nds.getSkeleton().getSource())).stream();

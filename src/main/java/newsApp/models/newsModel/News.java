@@ -3,26 +3,53 @@ package newsApp.models.newsModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
+@Entity
+@Table(name = "news")
 public class News {
 
-    private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
+    @Column(name = "title",length = 450)
     private String title;
+
+    @Column(name = "news_link",length = 450)
     private String newsLink;
+
+    @Column(name = "source", length = 450)
     private String source;
+
+    @Column(name = "image_path",length = 450)
     private String imagePath;
+
+    @Column(name = "publiched_date")
     private LocalDateTime publishedDate;
+
+    @OneToOne(
+            mappedBy = "news",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
+    private DetailedNews detailedNews;
+
+    public News(String title, String newsLink, String address, String image,LocalDateTime published) {
+        this.title=title;
+        this.newsLink = newsLink;
+        this.source=address;
+        this.imagePath=image;
+        this.publishedDate=published;
+    }
 
     public boolean isNull(){
         return !title.equals("") && !newsLink.equals("") &&

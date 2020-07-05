@@ -1,6 +1,6 @@
 package newsApp.services.userService;
 
-import newsApp.repo.NUserRepository;
+import newsApp.repo.userRepo.NUserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
