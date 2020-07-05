@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScraperSkeleton {
-    private String webSite;
+public class NewsScraperSkeleton {
+    private String domain;
+    private String address;
     private String pathToSection;
     private String pathToContent;
     private String pathToImg;

@@ -1,13 +1,13 @@
 package newsApp.controllers.webScraperController;
 
 import lombok.extern.log4j.Log4j2;
-import newsApp.models.newsModel.News;
+import newsApp.models.newsModel.DetailedNews;
 import newsApp.services.scraperService.ScraperService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Collection;
 
 @Log4j2
 @RestController
@@ -20,11 +20,10 @@ public class WebScrapperController02 {
     }
 
     /**
-     * http://localhost:8080/v2/scrap
-     * @return
+     * http://localhost:8080/v2/scrap/
      */
     @GetMapping
-    public List<News> handle_news(){
+    public Collection<DetailedNews> handle_news(){
         return service.scrap();
     }
 }

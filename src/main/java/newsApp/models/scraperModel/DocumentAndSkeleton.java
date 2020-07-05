@@ -8,7 +8,7 @@ import org.jsoup.nodes.Document;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DocumentAndSkeleton {
+public class DocumentAndSkeleton<A> {
     private Document document;
-    private ScraperSkeleton skeleton;
+    private A skeleton;
 }
