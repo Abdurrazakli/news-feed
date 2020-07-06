@@ -1,6 +1,7 @@
 package newsApp.controllers.userController;
 
 import lombok.extern.log4j.Log4j2;
+import newsApp.exception.userException.AlreadyExistingUserException;
 import newsApp.formData.FormRegisterData;
 import newsApp.services.userService.RegistrationService;
 import org.springframework.stereotype.Controller;
@@ -31,8 +32,9 @@ public class RegistrationController {
         throw new IllegalArgumentException("Not implemented in Registration Controller");
     }*/
   @PostMapping
-  public String createNewUser(){
-      log.info(String.format("Form data: %s","a"));
+  public String createNewUser(FormRegisterData regData) throws AlreadyExistingUserException {
+      log.info(String.format("------ Create new user sent to service ------"));
+      regService.createNewUser(regData);
       //throw new IllegalArgumentException("Not implemented in Registration Controller");
       return "main-page";
   }
