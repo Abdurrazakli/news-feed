@@ -1,9 +1,9 @@
 package newsApp.models.newsModel;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
 
 import javax.persistence.*;
@@ -14,21 +14,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "news")
+@Table(name = "news", uniqueConstraints=@UniqueConstraint(columnNames = {"news_link"}))
 public class News {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
 
     @Column(name = "title",length = 450)
     private String title;
 
+    @Id
     @Column(name = "news_link",length = 450)
     private String newsLink;
 
     @Column(name = "source", length = 450)
     private String source;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Domain domainId;
 
     @Column(name = "image_path",length = 450)
     private String imagePath;
@@ -36,6 +37,7 @@ public class News {
     @Column(name = "publiched_date")
     private LocalDateTime publishedDate;
 
+    @JsonIgnore
     @OneToOne(
             mappedBy = "news",
             cascade = CascadeType.ALL,
@@ -43,10 +45,11 @@ public class News {
     )
     private DetailedNews detailedNews;
 
-    public News(String title, String newsLink, String address, String image,LocalDateTime published) {
+    public News(String title, String newsLink, String address,Domain domain, String image,LocalDateTime published) {
         this.title=title;
         this.newsLink = newsLink;
         this.source=address;
+        this.domainId=domain;
         this.imagePath=image;
         this.publishedDate=published;
     }

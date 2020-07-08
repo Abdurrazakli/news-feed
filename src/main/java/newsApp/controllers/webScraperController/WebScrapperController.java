@@ -3,7 +3,6 @@ package newsApp.controllers.webScraperController;
 import lombok.extern.log4j.Log4j2;
 import newsApp.models.newsModel.News;
 import newsApp.services.scraperService.WebScrapperServiceTrendAz;
-import newsApp.utils.webScraperUtils.NewsSitesSkeleton;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

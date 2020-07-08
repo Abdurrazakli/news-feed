@@ -3,23 +3,26 @@ package newsApp.utils.webScraperUtils;
 import newsApp.models.scraperModel.NewsScraperSkeleton;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class NewsSitesSkeleton {
+public class NewsSitesStructures {
 
     public static List<NewsScraperSkeleton> getNewsSkeleton(){      // forgot password, login with fb, github;Search;
         return new ArrayList<NewsScraperSkeleton>(){{
             //1
-            add(new NewsScraperSkeleton("https://www.foxnews.com","https://www.foxnews.com/world","body #wrapper .page .page-content .row .main-content > section",
-                    ".content > article","img",".info > header .title > a","src",".info > header .title > a")
+            add(new NewsScraperSkeleton("https://www.foxnews.com","https://www.foxnews.com/world",
+                    "body #wrapper .page .page-content .row .main-content > section", ".content > article",
+                    "img",".info > header .title > a","src",".info > header .title > a",
+                    "body .article-body p")
             );
             //2
             add(new NewsScraperSkeleton("https://www.huffpost.com/","https://www.huffpost.com/","body .main #zone-a section",
-                    ".card",".card__image__link .card__image .card__image__src > picture > img",".card__headlines > a","src",".card__headlines > a > h3")
+                    ".card",".card__image__link .card__image .card__image__src > picture > img",
+                    ".card__headlines > a","src",".card__headlines > a > h3","body .entry__text p")
             );
-            add(new NewsScraperSkeleton("https://news.az/","https://news.az/","body .wrapper .main--content .post--items > ul","li",
-                    ".post--item .post--img > a > img" ,".post--item .post--img > a","data-src",".post--item .post--img ,post--info .title > h2 > a")
+            add(new NewsScraperSkeleton("https://news.az/","https://news.az/","body .wrapper .main--content .post--items > ul",
+                    "li", ".post--item .post--img > a > img" ,".post--item .post--img > a","data-src",
+                    ".post--item .post--img ,post--info .title > h2 > a","body .post--content p")
             );
 
 
@@ -42,14 +45,6 @@ public class NewsSitesSkeleton {
             //7
 //            add(new ScraperSkeleton() for https://en.trend.az/latest/;
 //            );
-        }};
-    }
-
-    public static HashMap<String, String> getNewsParagraphPath(){
-        return new HashMap<String, String>(){{
-            put("https://www.foxnews.com/world","body .article-body p");
-            put("https://www.huffpost.com/","body .entry__text p");
-            put("https://news.az/","body .post--content p");
         }};
     }
 }

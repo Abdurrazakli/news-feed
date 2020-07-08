@@ -12,9 +12,10 @@ public class NewsScraperSkeleton {
     private String domain;
     private String address;
     private String pathToSection;
-    private String pathToContent;
+    private String pathToCard;
     private String pathToImg;
     private String pathToNewsLink;
     private String imageAttr;
     private String pathToTitle;
+    private String pathToContent;
 }
