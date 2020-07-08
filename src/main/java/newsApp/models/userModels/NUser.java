@@ -1,12 +1,15 @@
 package newsApp.models.userModels;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import newsApp.models.newsModel.Domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -31,6 +34,20 @@ public class NUser {
     @NotEmpty
     private String password;
 
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "unlikedDomains",
+                joinColumns = {@JoinColumn(
+                        name = "user_id",
+                        referencedColumnName = "id")},
+                inverseJoinColumns = {@JoinColumn(
+                        name = "domain_id",
+                        referencedColumnName = "id"
+                )}
+    )
+                                             // one user can have multiple domains;           \\   \
+                                                //                                            >=========>>> ManyToMAny
+    private Set<Domain> NotLikedDomains;     // one domain can be disliked by multiple users; //   /
 
     private String roles;
 
