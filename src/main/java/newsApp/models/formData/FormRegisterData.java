@@ -1,4 +1,4 @@
-package newsApp.formData;
+package newsApp.models.formData;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

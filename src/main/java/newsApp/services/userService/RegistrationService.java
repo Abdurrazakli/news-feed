@@ -2,7 +2,7 @@ package newsApp.services.userService;
 
 import lombok.extern.log4j.Log4j2;
 import newsApp.exception.userException.AlreadyExistingUserException;
-import newsApp.formData.FormRegisterData;
+import newsApp.models.formData.FormRegisterData;
 import newsApp.models.userModels.NUser;
 
 import newsApp.repo.userRepo.NUserRepository;
@@ -30,6 +30,6 @@ public class RegistrationService {
     }
 
     private boolean hasUserRegisteredBefore(String email){
-        return userRepo.findByEmail(email).isPresent();
+        return userRepo.existsByEmail(email);
     }
 }
