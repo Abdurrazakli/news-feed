@@ -23,7 +23,7 @@ public class RegistrationService {
     public Optional<NUser> createNewUser(FormRegisterData regData) throws AlreadyExistingUserException {
         if(hasUserRegisteredBefore(regData.getEmail())) throw new AlreadyExistingUserException("This email has already registered");
 
-        NUser nUser = new NUser(regData.getFullname(), regData.getEmail(), encoder.encode(regData.getPassword()));
+        NUser nUser = new NUser(regData.getFullname(), regData.getEmail(), encoder.encode(regData.getPassword()),new String[]{"USER"});
         log.info(String.format("-------New User created: %s-----",nUser));
 
         return Optional.of(userRepo.save(nUser));

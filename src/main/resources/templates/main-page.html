@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="https://www.thymeleaf.org"
+        lang="en">
 
 <!-- Mirrored from www.alexshmyrkov.space/News Feed/main-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 24 Jun 2020 10:24:09 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
@@ -26,12 +29,17 @@
             <div class="hidden-accordion-wrapper">
                 <ul class="hidden-accordion">
                     <li class="hidden-accordion-item"><img src="img/favourite-icon.svg" alt="Favourite Icon"><a href="disable-news.html" class="hidden-accordion-item-link">My News</a></li>
-                    <li class="hidden-accordion-item"><img src="img/log-out-icon.svg" alt="Log Out Icon"><a href="index.html" class="hidden-accordion-item-link">Log Out</a></li>
+                    <li class="hidden-accordion-item"><img src="img/log-out-icon.svg" alt="Log Out Icon"><a href="login.html" class="hidden-accordion-item-link">Log Out</a></li>
                 </ul>
             </div>
         </div>
     </div>
 </header>
+
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
 
 <section class="main-section">
     <div class="tab">

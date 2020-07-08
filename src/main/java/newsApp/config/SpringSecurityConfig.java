@@ -13,10 +13,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/registration","/css/*","/js/*","/img/*").permitAll()
-                .anyRequest().authenticated();
-        http
+                .anyRequest().authenticated()
+        .and()
                 .formLogin()
-                .loginPage("/")
+                .loginPage("/login")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error")
                 .permitAll();
     }
 }

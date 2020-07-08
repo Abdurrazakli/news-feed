@@ -2,17 +2,12 @@ package newsApp.controllers.userController;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
-@Controller
-@RequestMapping("/")
+//@Controller
+//@RequestMapping("/login")
 public class LoginController {
 
-    /**
-     *http://localhost:8080/
-     */
-    @GetMapping
-    String getIndexPage(){
-        return "index";
-    }
 }
