@@ -1,4 +1,4 @@
-package newsApp.exception.userException;
+package newsApp.exceptions.userException;
 
 public class UserException extends Exception {
     public UserException() {

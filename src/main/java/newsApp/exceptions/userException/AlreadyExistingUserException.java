@@ -1,4 +1,4 @@
-package newsApp.exception.userException;
+package newsApp.exceptions.userException;
 
 public class AlreadyExistingUserException extends UserException {
     public AlreadyExistingUserException() {

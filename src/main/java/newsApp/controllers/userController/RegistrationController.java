@@ -1,7 +1,7 @@
 package newsApp.controllers.userController;
 
 import lombok.extern.log4j.Log4j2;
-import newsApp.exception.userException.AlreadyExistingUserException;
+import newsApp.exceptions.userException.AlreadyExistingUserException;
 import newsApp.models.formData.FormRegisterData;
 import newsApp.services.userService.RegistrationService;
 import org.springframework.stereotype.Controller;
