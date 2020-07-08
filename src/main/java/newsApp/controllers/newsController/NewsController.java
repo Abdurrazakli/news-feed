@@ -10,6 +10,7 @@ public class NewsController {
 
     @GetMapping
     public String main_page(){
+
         return "main-page";
     }
 }
