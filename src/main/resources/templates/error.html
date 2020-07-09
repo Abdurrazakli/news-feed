@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+<h2>BusinessEx</h2>
+URL<p th:text="${url}"></p>
+name<p th:text="${name}"></p>
+info<p th:text="${info}"></p>
+<!--<table style="visibility: hidden">-->
+<!--    <tr th:each="ste : ${ex.stackTrace}">-->
+<!--        <td th:text="${ste}"></td>-->
+<!--    </tr>-->
+<!--</table>-->
 </body>
 </html>
