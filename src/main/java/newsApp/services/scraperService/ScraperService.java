@@ -72,20 +72,6 @@ public class ScraperService {
         return detailedNews;   //TODO make scrape() void when all things straightforward;
     }
 
-    private void writeNewDomainsToDb(List<NewsScraperSkeleton> scraperSkeletons) {
-
-        List<Domain> newDomains = scraperSkeletons.stream()
-                .map(s -> new Domain(s.getDomain()))
-                .collect(Collectors.toList());
-
-        newDomains.forEach(d->{
-            try {
-                domainRepo.save(d);
-            }catch (DataIntegrityViolationException ignored){
-                log.info("Data integrity error! Domains");
-            }
-        });
-    }
 
 
     /**
@@ -127,7 +113,6 @@ public class ScraperService {
                 news,
                 f
         );
-        log.info("\n\n\n\n\n\n\n\nttttttttttttttttttttttttttttttttttttttttttttttttttttttt");
 
         // Document and skeleton of site and websiteSkeleton(for paragraph path);
         return fold.stream().parallel().map(nds->
@@ -149,6 +134,21 @@ public class ScraperService {
         });
     }
 
+    private void writeNewDomainsToDb(List<NewsScraperSkeleton> scraperSkeletons) {
+
+        List<Domain> newDomains = scraperSkeletons.stream()
+                .map(s -> new Domain(s.getDomain()))
+                .collect(Collectors.toList());
+
+        newDomains.forEach(d->{
+            try {
+                domainRepo.save(d);
+            }catch (DataIntegrityViolationException ignored){
+                log.info("Data integrity error! Domains");
+            }
+        });
+    }
+
     /**
      * generic helper function
      *
@@ -163,20 +163,6 @@ public class ScraperService {
             }
         });
         return result;
-    }
-
-    private <A> List<A> filter(List<A> list1, List<A> list2){
-        log.info(String.format("Compared lists:%d \n %d\n",list1.size(),list2.size()));
-        List<A> union = new ArrayList<A>(list1);
-        union.addAll(list2);
-        List<A> intersection = new ArrayList<A>(list1);
-        intersection.retainAll(list2);
-        List<A> symmetricDifference = new ArrayList<A>(union);
-        symmetricDifference.removeAll(intersection);
-
-        log.info(String.format("\nResult %s",symmetricDifference.toString()));
-
-        return symmetricDifference;
     }
 
     /**
