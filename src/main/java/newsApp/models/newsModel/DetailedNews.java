@@ -1,15 +1,14 @@
 package newsApp.models.newsModel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"news"})
 @Entity
 @Table(name = "detailed_news")
 public class DetailedNews {
@@ -22,6 +21,7 @@ public class DetailedNews {
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
+    @ToString.Exclude
     private News news;
 
     @Column(name = "content",columnDefinition = "TEXT")
