@@ -1,6 +1,7 @@
 package newsApp.services.userService;
 
 
+import lombok.extern.log4j.Log4j2;
 import newsApp.models.userModels.NUser;
 import newsApp.models.userModels.UserToken;
 import newsApp.repo.userRepo.TokenRepo;
@@ -13,6 +14,7 @@ import java.util.Calendar;
 import java.util.Optional;
 import java.util.UUID;
 
+@Log4j2
 @Service
 public class UserTokenizeService {
     private final long EXPIRY_HOURS = 4;
@@ -30,8 +32,10 @@ public class UserTokenizeService {
 
     public String validateToken(UUID token) {
         Optional<UserToken> passToken = tokenRepo.findById(token);
+        log.warn("Token in db:" +passToken.toString());
+        if (!passToken.isPresent()) return "Token not found";
         return passToken
-                .map(userToken -> isTokenExpired(userToken) ? "expired" : "Token validated")
+                .map(userToken -> isTokenExpired(userToken) ? "expired" : null)
                 .orElse(null);
     }
 

@@ -30,6 +30,12 @@
         <div  class="alert alert-primary" role="alert" th:if="${param.logout}">
             You have been logged out.
         </div>
+        <div  class="alert alert-primary" role="alert" th:if="${param.password_reset==true}">
+            Password reset successfully!
+        </div>
+        <div class="alert alert-primary" role="alert" th:text="${param.message}" th:if="${param.password_reset==false}">
+
+        </div>
         <form method="post" th:action="@{/login}" class="login-section-container-form">
             <div class="login-section-container-form-input-wrapper">
                 <img class="input-icons" src="/img/mail-icon.svg" alt="User Icon">

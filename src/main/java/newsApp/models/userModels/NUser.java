@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import newsApp.models.newsModel.Domain;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -12,26 +13,22 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 import java.util.UUID;
 
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicUpdate
 public class NUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @NotNull
-    @NotEmpty
     private String fullName;
 
-    @NotNull
-    @NotEmpty
     @Column(unique = true)
     private String email;
 
-    @NotNull
-    @NotEmpty
     private String password;
 
     @JsonIgnore
@@ -64,7 +61,7 @@ public class NUser {
     }
 
 
-    public NUser(@NotNull @NotEmpty String fullname, @NotNull @NotEmpty String email, @NotNull @NotEmpty String password,String[] roles ) {
+    public NUser(String fullname, String email, String password,String[] roles ) {
         this.fullName = fullname;
         this.email = email;
         this.password = password;

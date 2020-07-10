@@ -29,7 +29,7 @@ public class PasswordResetController {
     private final EmailSenderService senderService;
     private final UserTokenizeService userTokenizeService;
     private final UserService userService;
-    private final String contextPath = "http://localhost:8000"; // TODO In Production will not work cget host from heroku env;
+    private final String contextPath = "http://localhost:8080"; // TODO In Production will not work cget host from heroku env;
 
     public PasswordResetController(EmailSenderService senderService, NUserRepository repository,
                                    UserTokenizeService userTokenizeService, UserService userService) {
@@ -38,6 +38,11 @@ public class PasswordResetController {
         this.userService = userService;
     }
 
+    /**
+     * http://localhost:8080/user/reset-password
+     * @return
+     */
+
     @GetMapping("/reset-password")
     public String password_reset(){
         return "password-reset-require";
@@ -45,7 +50,7 @@ public class PasswordResetController {
 
     @PostMapping("/reset-password")
     public  String resetPassword(HttpServletRequest request,
-                              @RequestParam("email") String email){
+                                 @RequestParam("email") String email){
         UUID token = UUID.randomUUID();
 
         NUser nUser = userService.findByEmail(email);
@@ -56,28 +61,30 @@ public class PasswordResetController {
     }
 
     @GetMapping("/change-password")
-    public RedirectView changePasswordPage(Model model, @RequestParam("token") UUID token){
+    public String changePasswordPage(Model model, @RequestParam("token") UUID token){
         log.info("Token: "+ token.toString());
         String result = userTokenizeService.validateToken(token);
         log.info("Result of validation: "+ result);
         if (result != null){
-            return new RedirectView("/login?password-reset=false");
+            return "redirect:/login?password_reset=false&message="+result;
         }else {
             model.addAttribute("token",token.toString());
-            return new RedirectView("/change-password");
+            return "change-password";
         }
     }
 
     @PostMapping("/save-password")
     public RedirectView saveNewPassword(PasswordReset passwordReset){
+        log.info("Save changes view activated!");
+        log.info(passwordReset.toString());
         String result = userTokenizeService.validateToken(passwordReset.getToken());
-        if (result != null ) return new RedirectView("/login?password-reset=false");
+        if (result != null ) return new RedirectView("/login?password_reset=false");
         Optional<NUser> userByToken = userTokenizeService.getUserByToken(passwordReset.getToken());
-        if(userByToken.isPresent()){
+        if(userByToken.isPresent()) {
             userService.changeUserPassword(userByToken.get(),passwordReset.getNewPassword());
-            return new RedirectView("/login?password-reset=true");
-        }else{
-            return new RedirectView("/login?password-reset=false");
+            return new RedirectView("/login?password_reset=true");
+        }else {
+            return new RedirectView("/login?password_reset=false");
         }
     }
 
