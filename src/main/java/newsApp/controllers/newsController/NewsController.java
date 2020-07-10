@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Log4j2
 @Controller
@@ -26,7 +27,11 @@ public class NewsController {
     }
 
     @GetMapping
-    public String main_page(Model model,
+    public RedirectView main_page(){
+        return new RedirectView("news");
+    }
+    @GetMapping("news")
+    public String load_by_page(Model model,
                             Authentication auth,
                             @RequestParam(value = "page",required = false,defaultValue = "0") Integer page){
         log.info("Main-page GET request worked!");
