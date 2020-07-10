@@ -24,7 +24,7 @@ public class Domain {
     @Column(name = "domain")
     private String domain;
 
-    @OneToMany(mappedBy = "domainId")
+    @OneToMany(mappedBy = "domain")
     @JsonIgnore
     @ToString.Exclude
     private Set<News> news;

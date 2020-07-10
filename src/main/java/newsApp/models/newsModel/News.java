@@ -30,7 +30,7 @@ public class News {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
-    private Domain domainId;
+    private Domain domain;
 
     @Column(name = "image_path",length = 450)
     private String imagePath;
@@ -50,7 +50,7 @@ public class News {
         this.title=title;
         this.newsLink = newsLink;
         this.source=address;
-        this.domainId=domain;
+        this.domain =domain;
         this.imagePath=image;
         this.publishedDate=published;
     }
