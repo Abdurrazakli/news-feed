@@ -20,6 +20,7 @@ public class UserService {
 
     public void changeUserPassword(NUser nUser, String newPassword) {
         nUser.setPassword(newPassword);
-        userRepository.save(nUser);
+        userRepository.save(nUser); // Fixme : Not update
+
     }
 }
