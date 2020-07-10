@@ -3,6 +3,7 @@ package newsApp.models.newsModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
+@EqualsAndHashCode(exclude = {"domainId","detailedNews"})
 @Entity
 @Table(name = "news", uniqueConstraints=@UniqueConstraint(columnNames = {"news_link"}))
 public class News {
@@ -34,7 +35,7 @@ public class News {
     @Column(name = "image_path",length = 450)
     private String imagePath;
 
-    @Column(name = "publiched_date")
+    @Column(name = "published_date")
     private LocalDateTime publishedDate;
 
     @JsonIgnore

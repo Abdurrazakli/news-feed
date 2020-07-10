@@ -14,41 +14,42 @@
 <body>
 
 <header class="main-header">
-    <a href="main-page.html" class="main-header-logo"><img src="img/Group%2012.png" alt="IBA Tech Academy"></a>
+    <a href="main-page.html" class="main-header-logo"><img src="/img/Group%2012.png" alt="IBA Tech Academy"></a>
     <div class="main-header-wrapper">
         <label class="main-header-search-wrapper">
             <input type="search" class="main-header-search" placeholder="Search">
-            <img src="img/search-icon.svg" alt="Search Icon">
+            <img src="/img/search-icon.svg" alt="Search Icon">
         </label>
         <div class="main-header-profile-wrapper">
             <div class="main-header-profile-credentials">
                 <span class="main-header-profile-welcome">Welcome,</span>
-                <span class="main-header-username">Sample User</span>
+                <span class="main-header-username" th:text="${userName}"></span>
             </div>
             <img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
             <div class="hidden-accordion-wrapper">
                 <ul class="hidden-accordion">
-                    <li class="hidden-accordion-item"><img src="img/favourite-icon.svg" alt="Favourite Icon"><a href="disable-news.html" class="hidden-accordion-item-link">My News</a></li>
-                    <li class="hidden-accordion-item"><img src="img/log-out-icon.svg" alt="Log Out Icon"><a href="login.html" class="hidden-accordion-item-link">Log Out</a></li>
+                    <form id="postForm" th:action="@{/logout}" method="post">
+                        <input type="submit" hidden value="Sign Out"/>
+                        <li class="hidden-accordion-item"><img src="img/favourite-icon.svg" alt="Favourite Icon"><a href="disable-news.html" class="hidden-accordion-item-link">My News</a></li>
+                        <li class="hidden-accordion-item"><img src="img/log-out-icon.svg" alt="Log Out Icon"><a onclick="document.getElementById('postForm').submit();"  class="hidden-accordion-item-link">Log Out</a></li>
+                    </form>
                 </ul>
             </div>
         </div>
     </div>
 </header>
 
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+<!--<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>-->
+
 
             <section class="main-section">
-    <div th:each="news:allNews" class="tab">
+    <div th:each="news:${pages.content}" class="tab">
         <a class="tab-link-wrapper" href="open-tab.html">
-            <img class="tab-image" th:src="${news.image_path}" alt="404">
+            <img class="tab-image" th:src="${news.imagePath}" alt="404">
             <div class="tab-content">
                 <p class="tab-title" th:text="${news.title}" ></p>
-                <p class="tab-tags"><a class="tab-link" th:href="${news.domain}" th:text="${news.domain}" ></p>
-                <p class="tab-date" th:text="${news.publisgeddate}" ></p>
+                <p class="tab-tags"><a class="tab-link" th:href="${news.domainId}" th:text="${news.domainId}" ></a></p>
+                <p class="tab-date" th:text="${news.publishedDate}" ></p>
             </div>
         </a>
         <div>
