@@ -15,7 +15,7 @@ import java.util.UUID;
 @Table(name = "user_tokens")
 public class UserToken {
     @Id
-    @Column(columnDefinition = "BINARY(16)")
+    @Column
     private UUID token;
 
     @Column(name = "expiry_date")
