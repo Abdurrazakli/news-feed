@@ -21,7 +21,7 @@ public class Domain {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "domain")
+    @Column(unique = true,name = "domain")
     private String domain;
 
     @OneToMany(mappedBy = "domain")
