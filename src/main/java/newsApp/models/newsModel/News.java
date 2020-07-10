@@ -18,11 +18,15 @@ import java.time.LocalDateTime;
 @Table(name = "news", uniqueConstraints=@UniqueConstraint(columnNames = {"news_link"}))
 public class News {
 
+    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     @Column(name = "title",length = 450)
     private String title;
 
-    @Id
-    @Column(name = "news_link",length = 450)
+    @Column(unique = true,name = "news_link",length = 450)
     private String newsLink;
 
     @Column(name = "source", length = 450)
