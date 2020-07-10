@@ -9,12 +9,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Tinder: Main Page</title>
-    <link rel="stylesheet" href="css/main-page.css">
+    <link rel="stylesheet" href="/css/main-page.css">
 </head>
 <body>
 
 <header class="main-header">
-    <a href="main-page.html" class="main-header-logo"><img src="/img/Group%2012.png" alt="IBA Tech Academy"></a>
+    <a th:href="@{/news}" class="main-header-logo"><img src="/img/Group%2012.png" alt="IBA Tech Academy"></a>
     <div class="main-header-wrapper">
         <label class="main-header-search-wrapper">
             <input type="search" class="main-header-search" placeholder="Search">
@@ -39,17 +39,14 @@
     </div>
 </header>
 
-<!--<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>-->
-
-
             <section class="main-section">
-    <div th:each="news:${pages.content}" class="tab">
-        <a class="tab-link-wrapper" href="open-tab.html">
-            <img class="tab-image" th:src="${news.imagePath}" alt="404">
+    <div th:each="newss:${pages.content}" class="tab">
+        <a class="tab-link-wrapper" th:href="@{/news/{id}(id=${newss.id})}">
+            <img class="tab-image" th:src="${newss.imagePath}" alt="404">
             <div class="tab-content">
-                <p class="tab-title" th:text="${news.title}" ></p>
-                <p class="tab-tags"><a class="tab-link" th:href="${news.newsLink}" th:text="${news.source}" ></a></p>
-                <p class="tab-date" th:text="${#temporals.format(news.publishedDate, 'dd-MM-yyyy HH:mm')}" ></p>
+                <p class="tab-title" th:text="${newss.title}" ></p>
+                <p class="tab-tags"><a class="tab-link" th:href="@{/news/{id}(id=${newss.id})}" th:text="${newss.source}" ></a></p>
+                <p class="tab-date" th:text="${#temporals.format(newss.publishedDate, 'dd-MM-yyyy HH:mm')}" ></p>
             </div>
         </a>
         <div>

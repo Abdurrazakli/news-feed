@@ -1,6 +1,7 @@
 package newsApp.services.userService;
 
 import lombok.extern.log4j.Log4j2;
+import newsApp.exceptions.NewsNotFound;
 import newsApp.exceptions.userException.UserNotFoundException;
 import newsApp.models.newsModel.News;
 import newsApp.models.userModels.NUser;
@@ -48,5 +49,9 @@ public class UserService {
             log.error(String.format("Page not found: %s",ex));
         }
         return pages;
+    }
+
+    public News getNewsById(long newsId) throws NewsNotFound {
+        return newsRepo.findById(newsId).orElseThrow(()->new NewsNotFound("There is no news for this id"));
     }
 }

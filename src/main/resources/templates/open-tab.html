@@ -1,40 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
 
 <!-- Mirrored from www.alexshmyrkov.space/News Feed/open-tab.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 24 Jun 2020 10:27:07 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
     <meta charset="UTF-8">
     <title>Tinder: tab</title>
-    <link rel="stylesheet" href="css/open-tab.css">
+    <link rel="stylesheet" href="/css/open-tab.css">
 </head>
 <body>
 <header class="main-header">
-    <a href="main-page.html" class="main-header-logo"><img src="img/Group%2012.png" alt="IBA Tech Academy"></a>
+    <a th:href="@{/news}" class="main-header-logo"><img src="/img/Group%2012.png" alt="IBA Tech Academy"></a>
     <div class="main-header-wrapper">
         <label class="main-header-search-wrapper">
             <input type="search" class="main-header-search" placeholder="Search">
-            <img src="img/search-icon.svg" alt="Search Icon">
+            <img src="/img/search-icon.svg" alt="Search Icon">
         </label>
         <div class="main-header-profile-wrapper">
             <div class="main-header-profile-credentials">
                 <span class="main-header-profile-welcome">Welcome,</span>
-                <span class="main-header-username">Sample User</span>
+                <span class="main-header-username" th:text="${userName}"></span>
             </div>
-            <img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
+            <img class="main-header-user-icon" src="/img/user-icon-with-background.svg" alt="User Icon">
             <div class="hidden-accordion-wrapper">
                 <ul class="hidden-accordion">
-                    <li class="hidden-accordion-item"><img class="hidden-accordion-item-image" src="img/user-icon-gray.svg" alt="User Icon"><a href="user-profile.html" class="hidden-accordion-item-link">Profile</a></li>
-                    <li class="hidden-accordion-item"><img src="img/favourite-icon.svg" alt="Favourite Icon"><a href="#" class="hidden-accordion-item-link">Favourites</a></li>
-                    <li class="hidden-accordion-item"><img src="img/message-icon.svg" alt="Message Icon"><a href="#" class="hidden-accordion-item-link">Chat</a></li>
-                    <li class="hidden-accordion-item"><img src="img/log-out-icon.svg" alt="Log Out Icon"><a href="login.html" class="hidden-accordion-item-link">Log Out</a></li>
+                    <form id="postForm" th:action="@{/logout}" method="post">
+                        <input type="submit" hidden value="Sign Out"/>
+                        <li class="hidden-accordion-item"><img src="/img/favourite-icon.svg" alt="Favourite Icon"><a href="disable-news.html" class="hidden-accordion-item-link">My News</a></li>
+                        <li class="hidden-accordion-item"><img src="/img/log-out-icon.svg" alt="Log Out Icon"><a onclick="document.getElementById('postForm').submit();"  class="hidden-accordion-item-link">Log Out</a></li>
+                    </form>
                 </ul>
             </div>
         </div>
     </div>
 </header>
 
-<section class="tab-section">
+<!--<section class="tab-section">
     <img class="main-image" src="img/1_wW2OJ13gVZWrUcl4V0WAgg%201.png">
     <img class="background-drawing" src="img/Group.png">
     <div class="text-box">
@@ -52,6 +55,17 @@
             The people who make an impact, however, silence their doubts by focusing on the potential positive outcomes: “What if they say yes?” “What if they know a friend who can help me?” “What if this is my big break?”</p>
         <p class="add-gap">They do this because they know the old adage “Good things come to those who wait,” is out of date.
             The people who get what they want have the balls to ask for what they want.</p>
+    </div>
+</section>-->
+
+<section class="tab-section">
+    <img class="main-image" th:src="${news.imagePath}">
+    <img class="background-drawing" src="/img/Group.png">
+    <div class="text-box">
+        <p class="text-box-title" th:text="${news.title}"></p>
+        <p class="main-gap" th:text="${news.getDetailedNews().getContent()}" ></p>
+        <p class="tab-tags">Source:<a class="tab-link" th:href="${news.getNewsLink()}" th:text="${news.getNewsLink()}"></a></p>
+
     </div>
 </section>
 
