@@ -15,17 +15,11 @@ public class EmailSenderService {
         this.mailSender = mailSender;
     }
 
-    public void sendEmail(String contextPath, String token,NUser nUser){
-        mailSender.send(constructMailMessage(contextPath,token,nUser));
+    public void sendEmail(String subject, String body,NUser nUser){
+        mailSender.send(constructEmail(subject, body, nUser));
     }
 
 
-    private SimpleMailMessage constructMailMessage(String contextPath, String token, NUser user){
-        final String subject = "Reset Password";
-        String body = "Reset your password via this link:\r\n" + contextPath + "/user/change-password?token=" + token + "\n\nNote: link will be valid for 4 hours";
-        log.debug("Mail body: " + body);
-        return constructEmail(subject,body,user);
-    }
 
     private SimpleMailMessage constructEmail(String subject, String body, NUser user){
         SimpleMailMessage email = new SimpleMailMessage();

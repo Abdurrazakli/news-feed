@@ -17,13 +17,15 @@ public class NUserDetails implements UserDetails {
     private final String fullName;
     private final String password;
     private final String[] roles;
+    private final boolean enable;
 
-    public NUserDetails(UUID id, String email, String fullName, String password, String[] roles) {
+    public NUserDetails(UUID id, String email, String fullName, String password, String[] roles, boolean enable) {
         this.id = id;
         this.email = email;
         this.fullName = fullName;
         this.password = password;
         this.roles = roles;
+        this.enable = enable;
     }
 
     @Override
@@ -70,6 +72,6 @@ public class NUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enable;
     }
 }

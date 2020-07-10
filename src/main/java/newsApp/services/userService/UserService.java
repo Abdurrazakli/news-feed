@@ -51,6 +51,12 @@ public class UserService {
         return pages;
     }
 
+    public void enableUserProfile(NUser nUser) {
+        nUser.setEnabled(true);
+        userRepository.save(nUser);
+        log.info("User enabled!");
+    }
+
     public News getNewsById(long newsId) throws NewsNotFound {
         return newsRepo.findById(newsId).orElseThrow(()->new NewsNotFound("There is no news for this id"));
     }

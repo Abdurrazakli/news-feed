@@ -34,7 +34,7 @@ public class NUserDetailedServiceJPA implements UserDetailsService {
                 nUser.getEmail(),
                 nUser.getFullName(),
                 nUser.getPassword(),
-                nUser.getRoles()
-        );
+                nUser.getRoles(),
+                nUser.isEnabled());
     }
 }

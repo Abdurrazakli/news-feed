@@ -25,8 +25,9 @@ public class UserTokenizeService {
         this.tokenRepo = tokenRepo;
     }
 
-    public void createUserPasswordResetToken(NUser user, UUID token) {
+    public void createUserToken(NUser user, UUID token) {
         UserToken userToken = new UserToken(user, token, LocalDateTime.now().plusHours(EXPIRY_HOURS));
+        log.info("User Token created:"+userToken.toString());
         tokenRepo.save(userToken);
     }
 

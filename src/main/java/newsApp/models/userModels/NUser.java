@@ -8,8 +8,6 @@ import newsApp.models.newsModel.Domain;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 import java.util.UUID;
 
@@ -48,6 +46,8 @@ public class NUser {
 
     private String roles;
 
+    private boolean enabled;
+
     @Transient
     private final static String DELIMITER = ":";
 
@@ -61,9 +61,10 @@ public class NUser {
     }
 
 
-    public NUser(String fullname, String email, String password,String[] roles ) {
+    public NUser(String fullname, String email, String password,boolean enabled ) {
         this.fullName = fullname;
         this.email = email;
         this.password = password;
+        this.enabled=enabled;
     }
 }

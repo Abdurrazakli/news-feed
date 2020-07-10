@@ -2,13 +2,13 @@ package newsApp.controllers.userController;
 
 
 import lombok.extern.log4j.Log4j2;
-import newsApp.exceptions.userException.UserNotFoundException;
 import newsApp.models.userModels.NUser;
 import newsApp.models.userModels.PasswordReset;
 import newsApp.repo.userRepo.NUserRepository;
 import newsApp.services.userService.EmailSenderService;
 import newsApp.services.userService.UserService;
 import newsApp.services.userService.UserTokenizeService;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,19 +18,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
 @Log4j2
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/user/")
 public class PasswordResetController {
 
     private final EmailSenderService senderService;
     private final UserTokenizeService userTokenizeService;
     private final UserService userService;
     private final String contextPath = "http://localhost:8080"; // TODO In Production will not work cget host from heroku env;
+    private final String subject = "Reset password";
 
     public PasswordResetController(EmailSenderService senderService, NUserRepository repository,
                                    UserTokenizeService userTokenizeService, UserService userService) {
@@ -44,24 +44,32 @@ public class PasswordResetController {
      * @return
      */
 
-    @GetMapping("/reset-password")
+    @GetMapping("reset-password/")
     public String password_reset(){
         return "password-reset-require";
     }
 
-    @PostMapping("/reset-password")
+    @PostMapping("reset-password/")
     public  String resetPassword(HttpServletRequest request,
                                  @RequestParam("email") String email){
         UUID token = UUID.randomUUID();
 
         NUser nUser = userService.findByEmail(email);
 
-        userTokenizeService.createUserPasswordResetToken(nUser, token);
-        senderService.sendEmail(contextPath,token.toString(),nUser);
+        userTokenizeService.createUserToken(nUser, token);
+
+
+        senderService.sendEmail(subject,constructMessageBody(token.toString()),nUser);
+
         return "reset-send";
     }
 
-    @GetMapping("/change-password")
+    private String constructMessageBody(String token){
+        return "Reset your password via this link:\r\n" + contextPath + "/user/change-password?token=" + token + "\n\nNote: link will be valid for 4 hours";
+    }
+
+
+    @GetMapping("change-password/")
     public String changePasswordPage(Model model, @RequestParam("token") UUID token){
         log.info("Token: "+ token.toString());
         String result = userTokenizeService.validateToken(token);
@@ -74,7 +82,7 @@ public class PasswordResetController {
         }
     }
 
-    @PostMapping("/save-password")
+    @PostMapping("save-password/")
     public RedirectView saveNewPassword(PasswordReset passwordReset){
         log.info("Save changes view activated!");
         log.info(passwordReset.toString());
