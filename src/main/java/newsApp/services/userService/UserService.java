@@ -8,18 +8,21 @@ import newsApp.repo.newsRepo.NewsRepo;
 import newsApp.repo.userRepo.NUserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 @Log4j2
 @Service
 public class UserService {
     private final NUserRepository userRepository;
     private final NewsRepo newsRepo;
+    private final PasswordEncoder encoder;
     private final int PAGE_SIZE = 10;
     private final String PARAM_PUBLISHED_DATE = "published_date";
 
-    public UserService(NUserRepository userRepository, NewsRepo newsRepo) {
+    public UserService(NUserRepository userRepository, NewsRepo newsRepo, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.newsRepo = newsRepo;
+        this.encoder = encoder;
     }
 
     public NUser findByEmail(String email){
@@ -28,7 +31,7 @@ public class UserService {
     }
 
     public void changeUserPassword(NUser nUser, String newPassword) {
-        nUser.setPassword(newPassword);
+        nUser.setPassword(encoder.encode(newPassword));
         userRepository.save(nUser); // Fixme : Not update
 
     }
