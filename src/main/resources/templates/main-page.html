@@ -25,13 +25,13 @@
                 <span class="main-header-profile-welcome">Welcome,</span>
                 <span class="main-header-username" th:text="${userName}"></span>
             </div>
-            <img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
+            <img class="main-header-user-icon" src="/img/user-icon-with-background.svg" alt="User Icon">
             <div class="hidden-accordion-wrapper">
                 <ul class="hidden-accordion">
                     <form id="postForm" th:action="@{/logout}" method="post">
                         <input type="submit" hidden value="Sign Out"/>
-                        <li class="hidden-accordion-item"><img src="img/favourite-icon.svg" alt="Favourite Icon"><a href="disable-news.html" class="hidden-accordion-item-link">My News</a></li>
-                        <li class="hidden-accordion-item"><img src="img/log-out-icon.svg" alt="Log Out Icon"><a onclick="document.getElementById('postForm').submit();"  class="hidden-accordion-item-link">Log Out</a></li>
+                        <li class="hidden-accordion-item"><img src="/img/favourite-icon.svg" alt="Favourite Icon"><a href="disable-news.html" class="hidden-accordion-item-link">My News</a></li>
+                        <li class="hidden-accordion-item"><img src="/img/log-out-icon.svg" alt="Log Out Icon"><a onclick="document.getElementById('postForm').submit();"  class="hidden-accordion-item-link">Log Out</a></li>
                     </form>
                 </ul>
             </div>
@@ -48,16 +48,16 @@
             <img class="tab-image" th:src="${news.imagePath}" alt="404">
             <div class="tab-content">
                 <p class="tab-title" th:text="${news.title}" ></p>
-                <p class="tab-tags"><a class="tab-link" th:href="${news.domainId}" th:text="${news.domainId}" ></a></p>
-                <p class="tab-date" th:text="${news.publishedDate}" ></p>
+                <p class="tab-tags"><a class="tab-link" th:href="${news.newsLink}" th:text="${news.source}" ></a></p>
+                <p class="tab-date" th:text="${#temporals.format(news.publishedDate, 'dd-MM-yyyy HH:mm')}" ></p>
             </div>
         </a>
         <div>
-            <img class="vector" src="img/Vector.png">
+            <img class="vector" src="/img/Vector.png">
         </div>
         <a class="vector-text">Share</a>
         <div class="tab-options">
-            <img src="img/Vector%20(1).png">
+            <img src="/img/Vector%20(1).png">
         </div>
     </div>
 </section>
