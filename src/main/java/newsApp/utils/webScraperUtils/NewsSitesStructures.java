@@ -1,5 +1,6 @@
 package newsApp.utils.webScraperUtils;
 
+import newsApp.models.newsModel.Domain;
 import newsApp.models.scraperModel.NewsScraperSkeleton;
 
 import java.util.ArrayList;
@@ -10,19 +11,45 @@ public class NewsSitesStructures {
     public static List<NewsScraperSkeleton> getNewsSkeleton(){      // forgot password, login with fb, github;Search;
         return new ArrayList<NewsScraperSkeleton>(){{
             //1
-            add(new NewsScraperSkeleton("https://www.foxnews.com","https://www.foxnews.com/world",
-                    "body #wrapper .page .page-content .row .main-content > section", ".content > article",
-                    "img",".info > header .title > a","src",".info > header .title > a",
+            add(new NewsScraperSkeleton(
+                            new Domain("https://www.foxnews.com",
+                                       "Get the latest breaking and in-depth U.S. news headlines, photos and videos on FoxNews.com.",
+                                       "https://upload.wikimedia.org/wikipedia/commons/d/d4/Fox_News_Channel_logo.png"),
+                    "https://www.foxnews.com/world",
+                    "body #wrapper .page .page-content .row .main-content > section",
+                    ".content > article",
+                    "img",
+                    ".info > header .title > a",
+                    "src",
+                    ".info > header .title > a",
                     "body .article-body p")
             );
             //2
-            add(new NewsScraperSkeleton("https://www.huffpost.com/","https://www.huffpost.com/","body .main #zone-a section",
-                    ".card",".card__image__link .card__image .card__image__src > picture > img",
-                    ".card__headlines > a","src",".card__headlines > a > h3","body .entry__text p")
+            add(new NewsScraperSkeleton(
+                            new Domain("https://www.huffpost.com/",
+                    "HuffPost is for the people — not the powerful. We are empathetic reporters and observers. We hold power accountable. We entertain without guilt.",
+                    "https://www.prisa.com/uploads/2017/04/resized/850_850huffpost-new.jpg"),
+                    "https://www.huffpost.com/",
+                    "body .main #zone-a section",
+                    ".card",
+                    ".card__image__link .card__image .card__image__src > picture > img",
+                    ".card__headlines > a",
+                    "src",
+                    ".card__headlines > a > h3",
+                    "body .entry__text p")
             );
-            add(new NewsScraperSkeleton("https://news.az/","https://news.az/","body .wrapper .main--content .post--items > ul",
-                    "li", ".post--item .post--img > a > img" ,".post--item .post--img > a","data-src",
-                    ".post--item .post--img ,post--info .title > h2 > a","body .post--content p")
+            add(new NewsScraperSkeleton(
+                            new Domain("https://news.az/",
+                            "News.Az - Latest news from Azerbaijan.",
+                            "https://news.az/app/img/logo.png"),
+                    "https://news.az/",
+                    "body .wrapper .main--content .post--items > ul",
+                    "li",
+                    ".post--item .post--img > a > img" ,
+                    ".post--item .post--img > a",
+                    "data-src",
+                    ".post--item .post--img ,post--info .title > h2 > a",
+                    "body .post--content p")
             );
 
 

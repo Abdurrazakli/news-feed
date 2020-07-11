@@ -81,15 +81,15 @@ public class ScraperService {
         return folded.stream().parallel().flatMap(o ->
                 {
 
-                    Domain domain = domainRepo.findByDomain(o.getSkeleton().getDomain()).orElseThrow(DomainNotExists::new);
+                    Domain domain = domainRepo.findByDomain(o.getSkeleton().getDomain().getDomain()).orElseThrow(DomainNotExists::new);
                     return StreamOfSection(o).parallel().flatMap(sec ->
                         StreamOfContent(o, sec).parallel().map(content -> {
                             try {
                                 String title = content.select(o.getSkeleton().getPathToTitle()).text();  // text?? look back, add attr name too;
                                 String rowImg = content.select(o.getSkeleton().getPathToImg()).attr(o.getSkeleton().getImageAttr());
-                                String image = formatData(rowImg,o.getSkeleton().getDomain());
+                                String image = formatData(rowImg,o.getSkeleton().getDomain().getDomain());
                                 String rowNewsLink = content.select(o.getSkeleton().getPathToNewsLink()).attr("href");
-                                String newsLink = formatData(rowNewsLink,o.getSkeleton().getDomain());
+                                String newsLink = formatData(rowNewsLink,o.getSkeleton().getDomain().getDomain());
                                 return new News(title, newsLink, o.getSkeleton().getAddress(),domain, image, LocalDateTime.now());
                             } catch (Exception ignored) {
                                 log.error("Site content exception!");
@@ -137,7 +137,7 @@ public class ScraperService {
     private void writeNewDomainsToDb(List<NewsScraperSkeleton> scraperSkeletons) {
 
         List<Domain> newDomains = scraperSkeletons.stream()
-                .map(s -> new Domain(s.getDomain()))
+                .map(s -> s.getDomain())
                 .collect(Collectors.toList());
 
         newDomains.forEach(d->{

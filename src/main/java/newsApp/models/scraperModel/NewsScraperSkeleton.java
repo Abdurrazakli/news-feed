@@ -4,12 +4,13 @@ package newsApp.models.scraperModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import newsApp.models.newsModel.Domain;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewsScraperSkeleton {
-    private String domain;
+    private Domain domain;
     private String address;
     private String pathToSection;
     private String pathToCard;
