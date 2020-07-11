@@ -24,6 +24,12 @@ public class Domain {
     @Column(unique = true,name = "domain")
     private String domain;
 
+    @Column(name = "domain_info",length = 300)
+    private String domainInfo;
+
+    @Column(name = "domain_logo_link",length = 450)
+    private String domainLogoLink;
+
     @OneToMany(mappedBy = "domain")
     @JsonIgnore
     @ToString.Exclude
@@ -34,7 +40,9 @@ public class Domain {
     @ToString.Exclude
     private Set<NUser> users;
 
-    public Domain(String domain) {
+    public Domain(String domain, String domainInfo, String domainLogoLink) {
         this.domain = domain;
+        this.domainInfo = domainInfo;
+        this.domainLogoLink = domainLogoLink;
     }
 }
