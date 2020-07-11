@@ -34,26 +34,20 @@ public class NewsController {
     }
     @GetMapping("news")
     public String loadByPage(Model model,
-                            Authentication auth,
                             @RequestParam(value = "page",required = false,defaultValue = "0") Integer page){
         log.info("Main-page GET request worked!");
         Page<News> pages = userService.loadLatestNewsPages(page);
 
-        NUserDetails userDetails =(NUserDetails)auth.getPrincipal();
-        model.addAttribute("userName",userDetails.getFullName());
         model.addAttribute("pages",pages);
         return "main-page";
     }
 
     @GetMapping("news/{newsId}")
     public String getOneNewsDetailed(@PathVariable("newsId") long newsId,
-                                     Authentication auth,
                                      Model model) throws NewsNotFound {
         log.info(String.format("NewsId:%d sent to service!",newsId));
         News newsById = userService.getNewsById(newsId);
-        NUserDetails userDetails =(NUserDetails)auth.getPrincipal();
 
-        model.addAttribute("userName",userDetails.getFullName());
         model.addAttribute("news",newsById);
 
         return "open-tab";
