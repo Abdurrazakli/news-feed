@@ -1,7 +1,7 @@
 package newsApp.controllers.userController;
 
 import lombok.extern.log4j.Log4j2;
-import newsApp.exceptions.userException.AlreadyExistingUserException;
+import newsApp.exceptions.userException.UsernameAlreadyExistsEx;
 import newsApp.models.formData.FormRegisterData;
 import newsApp.services.userService.RegistrationService;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class RegistrationController {
     }
 
   @PostMapping
-  public RedirectView createNewUser(FormRegisterData regData) throws AlreadyExistingUserException {
+  public RedirectView createNewUser(FormRegisterData regData) throws UsernameAlreadyExistsEx {
       log.info("------ Create new user sent to service ------");
       regService.createNewUser(regData);
       return new RedirectView("/login");

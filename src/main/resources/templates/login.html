@@ -25,17 +25,25 @@
         <h1 class="login-section-container-title">Welcome Back!</h1>
         <p class="login-section-container-description">To keep connected with us please login with personal information by email address and password</p>
         <div  class="alert alert-danger" role="alert" th:if="${param.error}">
-            Invalid username and password.
+            Invalid username or password.
+        </div>
+        <div  class="alert alert-danger" role="alert" th:if="${param.exists}">
+            Username already token!
         </div>
         <div  class="alert alert-primary" role="alert" th:if="${param.logout}">
             You have been logged out.
         </div>
-        <div  class="alert alert-primary" role="alert" th:if="${param.password_reset==true}">
+        <div  class="alert alert-primary" role="alert" th:if="${param.password_reset}">
             Password reset successfully!
         </div>
-        <div class="alert alert-primary" role="alert" th:text="${param.message}" th:if="${param.password_reset==false}">
+        <div class="alert alert-danger" role="alert" th:unless="${param.password_reset}">
+            Can not reset password!
+        </div>
+        <div class="alert alert-danger" role="alert" th:if="${param.message}" th:content="${param.message}" >
 
         </div>
+
+
         <form method="post" th:action="@{/login}" class="login-section-container-form">
             <div class="login-section-container-form-input-wrapper">
                 <img class="input-icons" src="/img/mail-icon.svg" alt="User Icon">

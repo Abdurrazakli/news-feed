@@ -1,7 +1,7 @@
 package newsApp.services.userService;
 
 import lombok.extern.log4j.Log4j2;
-import newsApp.exceptions.userException.AlreadyExistingUserException;
+import newsApp.exceptions.userException.UsernameAlreadyExistsEx;
 import newsApp.models.formData.FormRegisterData;
 import newsApp.models.userModels.NUser;
 
@@ -30,7 +30,7 @@ public class RegistrationService {
     }
 
     public Optional<NUser> createNewUser(FormRegisterData regData) {
-        if(hasUserRegisteredBefore(regData.getEmail())) throw new AlreadyExistingUserException("This email has already registered");
+        if(hasUserRegisteredBefore(regData.getEmail())) throw new UsernameAlreadyExistsEx("This email has already registered");
 
         NUser nUser = new NUser(regData.getFullname(), regData.getEmail(), encoder.encode(regData.getPassword()),false);
         nUser.setRoles(new String[]{"USER"});
