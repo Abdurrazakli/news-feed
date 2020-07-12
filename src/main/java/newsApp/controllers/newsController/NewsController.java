@@ -44,7 +44,7 @@ public class NewsController {
     public String loadByPage(Model model,
                             @RequestParam(value = "page",required = false,defaultValue = "0") Integer page){
         log.info("Main-page GET request worked!");
-        Page<News> pages = userService.loadLatestNewsPages(page);
+        Page<News> pages = newsService.loadLatestNewsPages(page);
 
         model.addAttribute("pages",pages);
         return "main-page";
@@ -54,7 +54,7 @@ public class NewsController {
     public String getOneNewsDetailed(@PathVariable("newsId") long newsId,
                                      Model model) throws NewsNotFound {
         log.info(String.format("NewsId:%d sent to service!",newsId));
-        News newsById = userService.getNewsById(newsId);
+        News newsById = newsService.getNewsById(newsId);
 
         model.addAttribute("news",newsById);
 
