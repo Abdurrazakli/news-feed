@@ -5,12 +5,12 @@ The Front-End part is done using HTML, CSS and JS only. No frameworks, no hard s
 
 ### Pages:
 
-- Login
-- Registration
-- Forgot password 
-- Main Page
-- The article page
-- My news
+- Login                    +
+- Registration             +
+- Forgot password          +
+- Main Page                +?
+- The article page         +?
+- My news                  -
 
 ### Files:
 

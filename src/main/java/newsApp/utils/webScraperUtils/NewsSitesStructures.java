@@ -38,6 +38,7 @@ public class NewsSitesStructures {
                     ".card__headlines > a > h3",
                     "body .entry__text p")
             );
+            //3
             add(new NewsScraperSkeleton(
                             new Domain("https://news.az/",
                             "News.Az - Latest news from Azerbaijan.",
