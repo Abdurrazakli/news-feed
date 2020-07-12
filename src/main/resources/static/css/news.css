@@ -149,13 +149,14 @@ body{
 
 .news-tabs {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-evenly;
     margin-top: 30px;
 }
 
 .single-tab {
-    width: 16%;
+    width: 25%;
     border-radius: 15px;
     border: 1px solid #828282;
     text-align: center;
@@ -163,6 +164,7 @@ body{
 
 .tab-picture {
     width: 95%;
+    height: 50%;
     border-radius: 15px;
     margin-top: 5px;
     /*margin-bottom: 10px;*/

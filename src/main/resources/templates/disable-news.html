@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+>
 
 <!-- Mirrored from www.alexshmyrkov.space/News Feed/disable-news.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 24 Jun 2020 10:27:05 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
@@ -10,7 +13,7 @@
 </head>
 <body>
 <header class="main-header">
-    <a href="main-page.html" class="main-header-logo"><img src="img/Group%2012.png" alt="IBA Tech Academy"></a>
+    <a th:href="@{/news}" class="main-header-logo"><img src="/img/Group%2012.png" alt="IBA Tech Academy"></a>
     <div class="main-header-wrapper">
         <label class="main-header-search-wrapper">
             <input type="search" class="main-header-search" placeholder="Search">
@@ -19,120 +22,58 @@
         <div class="main-header-profile-wrapper">
             <div class="main-header-profile-credentials">
                 <span class="main-header-profile-welcome">Welcome,</span>
-                <span class="main-header-username">Sample User</span>
+                <span class="main-header-username" sec:authentication="principal.fullName"></span>
+
             </div>
-            <img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
+            <img class="main-header-user-icon" src="/img/user-icon-with-background.svg" alt="User Icon">
             <div class="hidden-accordion-wrapper">
                 <ul class="hidden-accordion">
-                    <li class="hidden-accordion-item"><img src="img/favourite-icon.svg" alt="Favourite Icon"><a href="disable-news.html" class="hidden-accordion-item-link">My News</a></li>
-                    <li class="hidden-accordion-item"><img src="img/log-out-icon.svg" alt="Log Out Icon"><a href="login.html" class="hidden-accordion-item-link">Log Out</a></li>
+                    <form id="postForm" th:action="@{/logout}" method="post">
+                        <input type="submit" hidden value="Sign Out"/>
+                        <li class="hidden-accordion-item"><img src="/img/favourite-icon.svg" alt="Favourite Icon"><a href="disable-news.html" class="hidden-accordion-item-link">My News</a></li>
+                        <li class="hidden-accordion-item"><img src="/img/log-out-icon.svg" alt="Log Out Icon"><a onclick="document.getElementById('postForm').submit();"  class="hidden-accordion-item-link">Log Out</a></li>
+                    </form>
                 </ul>
             </div>
         </div>
     </div>
 </header>
+
 <section>
     <div class="add-search">
         <p class="details">Disable news from specific websites:</p>
         <label class="main-header-search-wrapper">
             <input type="search" class="main-header-search" placeholder="Search">
-            <img src="img/search-icon.svg" alt="Search Icon">
+            <img src="/img/search-icon.svg" alt="Search Icon">
         </label>
     </div>
-    <div class="news-tabs">
-        <div class="single-tab">
-            <img class="tab-picture" src="img/1_6_fgYnisCa9V21mymySIvA%201.png">
-            <p class="tab-title">MEDIUM</p>
-            <p class="tab-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-            <div class="button">
-                <img class="icon" src="img/vec.png">
-                <p class="button-text">Dissmiss this author</p>
+<!--    <div class="news-tabs">-->
+<!--        <div class="single-tab">-->
+<!--            <img class="tab-picture" src="img/1_6_fgYnisCa9V21mymySIvA%201.png">-->
+<!--            <p class="tab-title">MEDIUM</p>-->
+<!--            <p class="tab-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>-->
+<!--            <div class="button">-->
+<!--                <img class="icon" src="img/vec.png">-->
+<!--                <p class="button-text">Dissmiss this author</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+        <div class="news-tabs">
+            <div class="single-tab" th:each="domain:${allDomains}">
+                <img class="tab-picture" th:src="${domain.getDomainLogoLink()}">
+                <p class="tab-title" th:text="${domain.getDomain()}"></p>
+                <p class="tab-description" th:text="${domain.getDomainInfo()}"></p>
+
+                <div class="button" style="cursor: pointer;">
+                    <form th:id="'formDomain'+${domain.getId()}"  method="post" th:action="@{/disable-news/{id}(id=${domain.id})}">
+                        <img class="icon" src="/img/vec.png">
+                        <input type="submit" class="button-text" value="Dissmiss this author">
+<!--                        <p class="button-text">Dissmiss this author</p>-->
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="single-tab">
-            <img class="tab-picture" src="img/1_6_fgYnisCa9V21mymySIvA%201.png">
-            <p class="tab-title">MEDIUM</p>
-            <p class="tab-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-            <div class="button">
-                <img class="icon" src="img/vec.png">
-                <p class="button-text">Dissmiss this author</p>
-            </div>
-        </div>
-        <div class="single-tab">
-            <img class="tab-picture" src="img/1_6_fgYnisCa9V21mymySIvA%201.png">
-            <p class="tab-title">MEDIUM</p>
-            <p class="tab-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-            <div class="button">
-                <img class="icon" src="img/vec.png">
-                <p class="button-text">Dissmiss this author</p>
-            </div>
-        </div>
-        <div class="single-tab">
-            <img class="tab-picture" src="img/1_6_fgYnisCa9V21mymySIvA%201.png">
-            <p class="tab-title">MEDIUM</p>
-            <p class="tab-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-            <div class="button">
-                <img class="icon" src="img/vec.png">
-                <p class="button-text">Dissmiss this author</p>
-            </div>
-        </div>
-        <div class="single-tab">
-            <img class="tab-picture" src="img/1_6_fgYnisCa9V21mymySIvA%201.png">
-            <p class="tab-title">MEDIUM</p>
-            <p class="tab-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-            <div class="button">
-                <img class="icon" src="img/vec.png">
-                <p class="button-text">Dissmiss this author</p>
-            </div>
-        </div>
-    </div>
-    <div class="news-tabs">
-        <div class="single-tab">
-            <img class="tab-picture" src="img/1_6_fgYnisCa9V21mymySIvA%201.png">
-            <p class="tab-title">MEDIUM</p>
-            <p class="tab-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-            <div class="button">
-                <img class="icon" src="img/vec.png">
-                <p class="button-text">Dissmiss this author</p>
-            </div>
-        </div>
-        <div class="single-tab">
-            <img class="tab-picture" src="img/1_6_fgYnisCa9V21mymySIvA%201.png">
-            <p class="tab-title">MEDIUM</p>
-            <p class="tab-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-            <div class="button">
-                <img class="icon" src="img/vec.png">
-                <p class="button-text">Dissmiss this author</p>
-            </div>
-        </div>
-        <div class="single-tab">
-            <img class="tab-picture" src="img/1_6_fgYnisCa9V21mymySIvA%201.png">
-            <p class="tab-title">MEDIUM</p>
-            <p class="tab-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-            <div class="button">
-                <img class="icon" src="img/vec.png">
-                <p class="button-text">Dissmiss this author</p>
-            </div>
-        </div>
-        <div class="single-tab">
-            <img class="tab-picture" src="img/1_6_fgYnisCa9V21mymySIvA%201.png">
-            <p class="tab-title">MEDIUM</p>
-            <p class="tab-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-            <div class="button">
-                <img class="icon" src="img/vec.png">
-                <p class="button-text">Dissmiss this author</p>
-            </div>
-        </div>
-        <div class="single-tab">
-            <img class="tab-picture" src="img/1_6_fgYnisCa9V21mymySIvA%201.png">
-            <p class="tab-title">MEDIUM</p>
-            <p class="tab-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-            <div class="button">
-                <img class="icon" src="img/vec.png">
-                <p class="button-text">Dissmiss this author</p>
-            </div>
-        </div>
-    </div>
+
 
 </section>
 
