@@ -8,7 +8,6 @@ import newsApp.repo.userRepo.NUserRepository;
 import newsApp.services.userService.EmailSenderService;
 import newsApp.services.userService.UserService;
 import newsApp.services.userService.UserTokenizeService;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,7 @@ import java.util.UUID;
 
 @Log4j2
 @Controller
-@RequestMapping("/user/")
+@RequestMapping("/user")
 public class PasswordResetController {
 
     private final EmailSenderService senderService;
@@ -44,23 +43,23 @@ public class PasswordResetController {
      * @return
      */
 
-    @GetMapping("reset-password/")
+    @GetMapping("/reset-password")
     public String password_reset(){
-        return "password-reset-require";
+        log.info("Reset_GET_request");
+        return "forgot-password";
     }
 
-    @PostMapping("reset-password/")
+    @PostMapping("/reset-password")
     public  String resetPassword(HttpServletRequest request,
                                  @RequestParam("email") String email){
         UUID token = UUID.randomUUID();
-
+        log.info("Reset_GET_request");
         NUser nUser = userService.findByEmail(email);
 
         userTokenizeService.createUserToken(nUser, token);
 
 
         senderService.sendEmail(subject,constructMessageBody(token.toString()),nUser);
-
         return "reset-send";
     }
 
@@ -69,7 +68,7 @@ public class PasswordResetController {
     }
 
 
-    @GetMapping("change-password/")
+    @GetMapping("/change-password")
     public String changePasswordPage(Model model, @RequestParam("token") UUID token){
         log.info("Token: "+ token.toString());
         String result = userTokenizeService.validateToken(token);
@@ -82,7 +81,7 @@ public class PasswordResetController {
         }
     }
 
-    @PostMapping("save-password/")
+    @PostMapping("/save-password")
     public RedirectView saveNewPassword(PasswordReset passwordReset){
         log.info("Save changes view activated!");
         log.info(passwordReset.toString());
