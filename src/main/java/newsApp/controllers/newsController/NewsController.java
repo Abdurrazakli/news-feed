@@ -1,5 +1,6 @@
 package newsApp.controllers.newsController;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.extern.log4j.Log4j2;
 import newsApp.exceptions.NewsNotFound;
 import newsApp.models.newsModel.Domain;
@@ -75,12 +76,23 @@ public class NewsController {
         return "open-tab";
     }
 
+    public String search_news(@RequestParam("query") String query, Model model, Principal principal){
+        NUserDetails nUserDetails = (NUserDetails) principal;
+
+        newsService.search(query,nUserDetails.getId());
+
+        return "main-page";
+    }
+
+
+
     @MessageMapping("/search")  // receive => /app/search
     @SendTo("/queue/endpoint")  // send =>  to broker
-    public List<News> search_news(String query, Principal principal){
+    public List<News> search_news_websocket(String query, Principal principal){
         log.info("Query: " + query);
+        NUserDetails nUserDetails = (NUserDetails) principal;
         log.info("Principal name: "+principal.getName());
-        newsService.search(query,principal.getName());
+        newsService.search(query,nUserDetails.getId());
         return new ArrayList<>(Arrays.asList(new News("title", "newsLink", "mewAddress", new Domain("domain", "domain info", "domainlink"), "fjef", LocalDateTime.now())));
     }
 }

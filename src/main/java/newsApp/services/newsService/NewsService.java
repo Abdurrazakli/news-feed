@@ -1,9 +1,7 @@
 package newsApp.services.newsService;
 
 import lombok.extern.log4j.Log4j2;
-import newsApp.exceptions.DomainNotExists;
 import newsApp.exceptions.NewsNotFound;
-import newsApp.exceptions.userException.UserNotFoundException;
 import newsApp.models.newsModel.Domain;
 import newsApp.models.newsModel.News;
 import newsApp.models.userModels.NUser;
@@ -37,7 +35,7 @@ public class NewsService {
         this.userRepository = userRepository;
     }
 
-    public List<News> search(String query, String name) {
+    public List<News> search(String query, UUID userId) {
         return null;
     }
 
