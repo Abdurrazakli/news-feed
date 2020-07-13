@@ -1,6 +1,6 @@
 package newsApp.exceptions;
 
-public class NewsNotFound extends Exception {
+public class NewsNotFound extends RuntimeException {
     public NewsNotFound(String message) {
         super(message);
     }

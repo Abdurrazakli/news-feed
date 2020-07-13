@@ -1,4 +1,4 @@
 package newsApp.exceptions;
 
-public class DomainNotExists extends BusinessLoginEx {
+public class DomainNotExists extends BusinessLogicEx {
 }

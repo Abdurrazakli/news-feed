@@ -4,6 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import newsApp.exceptions.NewsNotFound;
 import newsApp.models.newsModel.Domain;
 import newsApp.models.newsModel.News;
+import newsApp.models.userModels.NUser;
+import newsApp.models.userModels.NUserDetails;
 import newsApp.services.newsService.NewsService;
 import newsApp.services.userService.UserService;
 import org.springframework.data.domain.Page;
@@ -45,6 +47,18 @@ public class NewsController {
                             @RequestParam(value = "page",required = false,defaultValue = "0") Integer page){
         log.info("Main-page GET request worked!");
         Page<News> pages = newsService.loadLatestNewsPages(page);
+
+        model.addAttribute("pages",pages);
+        return "main-page";
+    }
+
+    @GetMapping("v2/news")
+    public String loadByPage02(Model model,
+                             @RequestParam(value = "page",required = false,defaultValue = "0") Integer pageNumber, Principal principal){
+        NUserDetails nUserDetails = (NUserDetails) principal;
+        log.info("User: "+nUserDetails.toString());
+        log.info("Main-page GET request worked!");
+        Page<News> pages = newsService.loadLatestNewsPages_02(pageNumber,nUserDetails.getId());
 
         model.addAttribute("pages",pages);
         return "main-page";
