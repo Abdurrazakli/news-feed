@@ -7,8 +7,8 @@ import newsApp.models.newsModel.News;
 import newsApp.services.newsService.NewsService;
 import newsApp.services.userService.UserService;
 import org.springframework.data.domain.Page;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+//import org.springframework.messaging.handler.annotation.MessageMapping;
+//import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,13 +60,13 @@ public class NewsController {
 
         return "open-tab";
     }
-
-    @MessageMapping("/search")  // receive => /app/search
-    @SendTo("/queue/endpoint")  // send =>  to broker
-    public List<News> search_news(String query, Principal principal){
-        log.info("Query: " + query);
-        log.info("Principal name: "+principal.getName());
-        newsService.search(query,principal.getName());
-        return new ArrayList<>(Arrays.asList(new News("title", "newsLink", "mewAddress", new Domain("domain", "domain info", "domainlink"), "fjef", LocalDateTime.now())));
-    }
+//TODO remove this if you dont need
+//    @MessageMapping("/search")  // receive => /app/search
+//    @SendTo("/queue/endpoint")  // send =>  to broker
+//    public List<News> search_news(String query, Principal principal){
+//        log.info("Query: " + query);
+//        log.info("Principal name: "+principal.getName());
+//        newsService.search(query,principal.getName());
+//        return new ArrayList<>(Arrays.asList(new News("title", "newsLink", "mewAddress", new Domain("domain", "domain info", "domainlink"), "fjef", LocalDateTime.now())));
+//    }
 }
