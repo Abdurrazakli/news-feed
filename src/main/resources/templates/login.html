@@ -36,9 +36,11 @@
         <div  class="alert alert-primary" role="alert" th:if="${param.password_reset}">
             Password reset successfully!
         </div>
-        <div class="alert alert-danger" role="alert" th:unless="${param.password_reset}">
-            Can not reset password!
+
+        <div  class="alert alert-primary" role="alert" th:if="${param.password_not_reset}">
+            Password reset failed!
         </div>
+
         <div class="alert alert-danger" role="alert" th:if="${param.message}" th:content="${param.message}" >
 
         </div>

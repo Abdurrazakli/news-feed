@@ -74,7 +74,7 @@ public class PasswordResetController {
         String result = userTokenizeService.validateToken(token);
         log.info("Result of validation: "+ result);
         if (result != null){
-            return "redirect:/login?password_reset=false&message="+result;
+            return "redirect:/login?password_not_reset=false&message="+result;
         }else {
             model.addAttribute("token",token.toString());
             return "change-password";
@@ -86,13 +86,13 @@ public class PasswordResetController {
         log.info("Save changes view activated!");
         log.info(passwordReset.toString());
         String result = userTokenizeService.validateToken(passwordReset.getToken());
-        if (result != null ) return new RedirectView("/login?password_reset=false");
+        if (result != null ) return new RedirectView("/login?password_not_reset=false");
         Optional<NUser> userByToken = userTokenizeService.getUserByToken(passwordReset.getToken());
         if(userByToken.isPresent()) {
             userService.changeUserPassword(userByToken.get(),passwordReset.getNewPassword());
             return new RedirectView("/login?password_reset=true");
         }else {
-            return new RedirectView("/login?password_reset=false");
+            return new RedirectView("/login?password_not_reset=false");
         }
     }
 
