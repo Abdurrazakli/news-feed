@@ -13,10 +13,7 @@ import org.springframework.data.domain.Page;
 //import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
@@ -75,10 +72,12 @@ public class NewsController {
         return "open-tab";
     }
 
+    @PostMapping("news/search")
     public String search_news(@RequestParam("query") String query, Model model, Principal principal){
-        NUserDetails nUserDetails = (NUserDetails) principal;
-
-        newsService.search(query,nUserDetails.getId());
+        log.info(principal.getName());
+        Page<News> searchRes = newsService.search(query, principal.getName());
+        searchRes.getContent().forEach(n-> System.out.println(n));
+        model.addAttribute("pages",searchRes );
 
         return "main-page";
     }

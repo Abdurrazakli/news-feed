@@ -13,10 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -35,9 +32,7 @@ public class NewsService {
         this.userRepository = userRepository;
     }
 
-    public List<News> search(String query, UUID userId) {
-        return null;
-    }
+
 
     public Page<News> loadLatestNewsPages(int page) {
         Page<News> pages = Page.empty();
@@ -68,6 +63,20 @@ public class NewsService {
                     return newsRepo.findAllByDomainNotIn(getDomainNames(domainNotLiked), pageRequest);
                 }).orElseThrow(() -> new NewsNotFound("No News Found"));
     }
+
+
+    public Page<News> search(String query, String userName) {
+        Optional<NUser> loggedInUser = userRepository.findByEmail(userName);
+        PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE);
+
+        return loggedInUser
+                .map(NUser::getNotLikedDomains)
+                .map(domainNotLiked -> {
+                    if (domainNotLiked.isEmpty()) return newsRepo.searchNews02(query, Collections.emptySet(),pageRequest);
+                    return newsRepo.searchNews02(query,getDomainNames(domainNotLiked),pageRequest);
+                }).orElseThrow(() -> new NewsNotFound("No News Found"));
+    }
+
 
     private Set<String> getDomainNames(Set<Domain> domains){
         return domains

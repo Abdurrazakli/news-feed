@@ -25,10 +25,11 @@
 <header class="main-header">
     <a th:href="@{/news}" class="main-header-logo"><img src="/img/Group%2012.png" alt="IBA Tech Academy"></a>
     <div class="main-header-wrapper">
-        <form>
+        <form method="post" th:action="@{/news/search}">
             <label class="main-header-search-wrapper">
                 <input type="search" id="query" name="query" class="main-header-search" placeholder="Search">
-                <a type="submit"><img src="/img/search-icon.svg" alt="Search Icon"></a>
+                <input type="submit" value="Search" >
+                <img src="/img/search-icon.svg" alt="Search Icon">
             </label>
         </form>
 
