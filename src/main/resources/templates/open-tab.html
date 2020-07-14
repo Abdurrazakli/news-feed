@@ -29,7 +29,7 @@
                 <ul class="hidden-accordion">
                     <form id="postForm" th:action="@{/logout}" method="post">
                         <input type="submit" hidden value="Sign Out"/>
-                        <li class="hidden-accordion-item"><img src="/img/favourite-icon.svg" alt="Favourite Icon"><a href="disable-news.html" class="hidden-accordion-item-link">My News</a></li>
+                        <li class="hidden-accordion-item"><img src="/img/favourite-icon.svg" alt="Favourite Icon"><a href="/disable-news" class="hidden-accordion-item-link">My News</a></li>
                         <li class="hidden-accordion-item"><img src="/img/log-out-icon.svg" alt="Log Out Icon"><a onclick="document.getElementById('postForm').submit();"  class="hidden-accordion-item-link">Log Out</a></li>
                     </form>
                 </ul>
