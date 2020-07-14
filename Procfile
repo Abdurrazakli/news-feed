@@ -1,0 +1,1 @@
+web: java -jar target/news-feed-1.0-SNAPSHOT.jar
