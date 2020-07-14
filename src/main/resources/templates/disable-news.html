@@ -64,7 +64,7 @@
                 <p class="tab-title" th:text="${domain.getDomain()}"></p>
                 <p class="tab-description" th:text="${domain.getDomainInfo()}"></p>
 
-                <div class="button" style="cursor: pointer;">
+                <div class="button">
                     <form th:id="'formDomain'+${domain.getId()}"  method="post" th:action="@{/disable-news/{id}(id=${domain.id})}">
                         <img class="icon" src="/img/vec.png">
                         <input type="submit" class="button-text" value="Dissmiss this author">
