@@ -1,6 +1,5 @@
 package newsApp.controllers.newsController;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.extern.log4j.Log4j2;
 import newsApp.exceptions.NewsNotFound;
 import newsApp.models.newsModel.Domain;
