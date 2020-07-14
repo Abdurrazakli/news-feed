@@ -60,7 +60,7 @@
     <img class="background-drawing" src="/img/Group.png">
     <div class="text-box">
         <p class="text-box-title" th:text="${news.title}"></p>
-        <p class="main-gap" th:text="${news.getDetailedNews().getContent()}" ></p>
+        <p class="main-gap" th:utext="${news.getDetailedNews().getContent()}" ></p>
         <p class="tab-tags">Source:<a class="tab-link" th:href="${news.getNewsLink()}" th:text="${news.getNewsLink()}"></a></p>
 
     </div>

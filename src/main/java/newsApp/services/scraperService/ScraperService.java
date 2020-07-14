@@ -118,7 +118,7 @@ public class ScraperService {
         return fold.stream().parallel().map(nds->
             new DetailedNews(/*news*/nds.getSkeleton(), /* content */StreamOfParagraphs(nds,scraperSkeletons)
                     .map(Element::text)
-                    .collect(Collectors.joining("\n")))
+                    .collect(Collectors.joining("\n</br></br>")))
         )
         .collect(Collectors.toList());
 
@@ -137,7 +137,7 @@ public class ScraperService {
     private void writeNewDomainsToDb(List<NewsScraperSkeleton> scraperSkeletons) {
 
         List<Domain> newDomains = scraperSkeletons.stream()
-                .map(s -> s.getDomain())
+                .map(NewsScraperSkeleton::getDomain)
                 .collect(Collectors.toList());
 
         newDomains.forEach(d->{
