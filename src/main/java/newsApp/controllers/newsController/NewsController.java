@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
@@ -74,12 +73,12 @@ public class NewsController {
     }
 
     @PostMapping("news/search")
-    public RedirectView search_news(@RequestParam("query") String query, RedirectAttributes ra, Principal principal){
+    public String search_news(@RequestParam("query") String query, Model model, Principal principal){
         log.info(principal.getName());
         Page<News> searchRes = newsService.search(query, principal.getName());
-        ra.addAttribute("pages",searchRes);
+        model.addAttribute("pages",searchRes );
 
-        return new RedirectView("/news");
+        return "main-page";
     }
 
 
