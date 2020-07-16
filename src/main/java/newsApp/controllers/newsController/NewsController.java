@@ -11,6 +11,7 @@ import newsApp.services.userService.UserService;
 import org.springframework.data.domain.Page;
 //import org.springframework.messaging.handler.annotation.MessageMapping;
 //import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +42,12 @@ public class NewsController {
     }
     @GetMapping("news")
     public String loadByPage(Model model,
-                            @RequestParam(value = "page",required = false,defaultValue = "0") Integer page){
+                             @RequestParam(value = "page",required = false,defaultValue = "0") Integer page, OAuth2AuthenticationToken oAuth2AuthenticationToken){
         log.info("Main-page GET request worked!");
         Page<News> pages = newsService.loadLatestNewsPages(page);
+
+
+
 
         model.addAttribute("pages",pages);
         return "main-page";
@@ -82,16 +86,6 @@ public class NewsController {
     }
 
 
-
-//    @MessageMapping("/search")  // receive => /app/search
-//    @SendTo("/queue/endpoint")  // send =>  to broker
-//    public List<News> search_news_websocket(String query, Principal principal){
-//        log.info("Query: " + query);
-//        NUserDetails nUserDetails = (NUserDetails) principal;
-//        log.info("Principal name: "+principal.getName());
-//        newsService.search(query,nUserDetails.getId());
-//        return new ArrayList<>(Arrays.asList(new News("title", "newsLink", "mewAddress", new Domain("domain", "domain info", "domainlink"), "fjef", LocalDateTime.now())));
-//    }
 //TODO remove this if you dont need
 //    @MessageMapping("/search")  // receive => /app/search
 //    @SendTo("/queue/endpoint")  // send =>  to broker

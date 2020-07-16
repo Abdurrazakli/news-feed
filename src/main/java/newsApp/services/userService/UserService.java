@@ -35,7 +35,7 @@ public class UserService {
 
     public void changeUserPassword(NUser nUser, String newPassword) {
         nUser.setPassword(encoder.encode(newPassword));
-        userRepository.save(nUser); // Fixme : Not update
+        userRepository.save(nUser);
     }
 
 

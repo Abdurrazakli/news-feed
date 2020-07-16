@@ -74,7 +74,7 @@ public class NewsService {
                 .map(domainNotLiked -> {
                     if (domainNotLiked.isEmpty()) return newsRepo.searchNews02(query, Collections.emptySet(),pageRequest);
                     return newsRepo.searchNews02(query,getDomainNames(domainNotLiked),pageRequest);
-                }).orElseThrow(() -> new NewsNotFound("No News Found"));
+                }).orElseThrow(() -> new NewsNotFound("No News Found")); //TODO empty list works????
     }
 
 

@@ -73,15 +73,12 @@ public class ScraperService {
     }
 
 
-
     /**
      * main Functions
      */
     private List<News> getNews(List<DocumentAndSkeleton<NewsScraperSkeleton>> folded) { // list of news; link=>content; Map<String, DetailedNews> data???
         return folded.stream().parallel().flatMap(o ->
-                {
-
-                    Domain domain = domainRepo.findByDomain(o.getSkeleton().getDomain().getDomain()).orElseThrow(DomainNotExists::new);
+                { Domain domain = domainRepo.findByDomain(o.getSkeleton().getDomain().getDomain()).orElseThrow(DomainNotExists::new);
                     return StreamOfSection(o).parallel().flatMap(sec ->
                         StreamOfContent(o, sec).parallel().map(content -> {
                             try {
@@ -92,7 +89,7 @@ public class ScraperService {
                                 String newsLink = formatData(rowNewsLink,o.getSkeleton().getDomain().getDomain());
                                 return new News(title, newsLink, o.getSkeleton().getAddress(),domain, image, LocalDateTime.now());
                             } catch (Exception ignored) {
-                                log.error("Site content exception!");
+                                log.error("Website didn't response! Connection error!");
                             }
                             return new News("","","",domain,"",LocalDateTime.now());
                         }));}
@@ -159,7 +156,7 @@ public class ScraperService {
             try {
                 result.add(f.apply(element));
             }catch (Exception ignored){
-                log.error("Get Document exception");
+                log.error("Connection error! Website didn't response!");
             }
         });
         return result;
