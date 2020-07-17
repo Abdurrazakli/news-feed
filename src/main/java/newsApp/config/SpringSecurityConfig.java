@@ -42,7 +42,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenEndpoint()
                 .accessTokenResponseClient(accessTokenResponseClient())
                 .and()
-                .defaultSuccessUrl("/news")
+                .defaultSuccessUrl("/",true)
                 .failureUrl("/login?error");
     }
 
