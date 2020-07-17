@@ -36,7 +36,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2Login()
                 .loginPage("/login")
                 .authorizationEndpoint()
-                .baseUri("/oauth2/authorize-client")
+                    .baseUri("/oauth2/authorize-client")
                 .authorizationRequestRepository(authorizationRequestRepository())
                 .and()
                 .tokenEndpoint()
