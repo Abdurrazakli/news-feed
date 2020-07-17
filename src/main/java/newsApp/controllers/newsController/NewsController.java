@@ -2,26 +2,23 @@ package newsApp.controllers.newsController;
 
 import lombok.extern.log4j.Log4j2;
 import newsApp.exceptions.NewsNotFound;
-import newsApp.models.newsModel.Domain;
 import newsApp.models.newsModel.News;
-import newsApp.models.userModels.NUser;
 import newsApp.models.userModels.NUserDetails;
 import newsApp.services.newsService.NewsService;
 import newsApp.services.userService.UserService;
 import org.springframework.data.domain.Page;
 //import org.springframework.messaging.handler.annotation.MessageMapping;
 //import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Log4j2
 @Controller
@@ -30,10 +27,16 @@ public class NewsController {
 
     private final UserService userService;
     private final NewsService newsService;
+    private static final String authorizationRequestBaseUri = "oauth2/authorize-client";
+    Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
+    private final ClientRegistrationRepository clientRegistrationRepository;
+    private final OAuth2AuthorizedClientService authorizedClientService;
 
-    public NewsController(UserService userService, NewsService newsService) {
+    public NewsController(UserService userService, NewsService newsService, ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientService authorizedClientService) {
         this.userService = userService;
         this.newsService = newsService;
+        this.clientRegistrationRepository = clientRegistrationRepository;
+        this.authorizedClientService = authorizedClientService;
     }
 
     @GetMapping
@@ -55,10 +58,14 @@ public class NewsController {
 
     @GetMapping("v2/news")
     public String loadByPage02(Model model,
-                             @RequestParam(value = "page",required = false,defaultValue = "0") Integer pageNumber, Principal principal){
+                             @RequestParam(value = "page",required = false,defaultValue = "0") Integer pageNumber, Principal principal, OAuth2AuthenticationToken authentication){
         NUserDetails nUserDetails = (NUserDetails) principal;
         log.info("User: "+nUserDetails.toString());
         log.info("Main-page GET request worked!");
+
+
+
+
         Page<News> pages = newsService.loadLatestNewsPages_02(pageNumber,nUserDetails.getId());
 
         model.addAttribute("pages",pages);

@@ -12,14 +12,14 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class MvcConfiguration implements WebMvcConfigurer {
 
-    private final static String[][] mappings = {
-            {"/login",      "login"},
-    };
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        Arrays.stream(mappings)
-                .forEach(m->
-                        registry.addViewController(m[0]).setViewName(m[1]));
-    }
+//    private final static String[][] mappings = {
+//            {"/login",      "login"},
+//    };
+//
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        Arrays.stream(mappings)
+//                .forEach(m->
+//                        registry.addViewController(m[0]).setViewName(m[1]));
+//    }
 }
