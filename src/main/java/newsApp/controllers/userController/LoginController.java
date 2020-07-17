@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +62,8 @@ public class LoginController {
     }
 
     @GetMapping("/social")
-    public RedirectView social_login(OAuth2AuthenticationToken authenticationToken){
+    public RedirectView social_login(OAuth2AuthenticationToken authenticationToken, Principal principal){
+        log.info("Social login principal: "+ principal.getName());
         OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authenticationToken.getAuthorizedClientRegistrationId(), authenticationToken.getName());
 
         String userInfoEndpointUri = client.getClientRegistration()
