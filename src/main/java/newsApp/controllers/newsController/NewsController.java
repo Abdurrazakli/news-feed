@@ -43,13 +43,12 @@ public class NewsController {
     public RedirectView mainPage(){
         return new RedirectView("news");
     }
+
     @GetMapping("news")
     public String loadByPage(Model model,
-                             @RequestParam(value = "page",required = false,defaultValue = "0") Integer page, OAuth2AuthenticationToken oAuth2AuthenticationToken){
+                             @RequestParam(value = "page",required = false,defaultValue = "0") Integer page){
         log.info("Main-page GET request worked!");
         Page<News> pages = newsService.loadLatestNewsPages(page);
-
-
 
 
         model.addAttribute("pages",pages);
