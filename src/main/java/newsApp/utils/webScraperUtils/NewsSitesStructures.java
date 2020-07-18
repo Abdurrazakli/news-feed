@@ -52,7 +52,126 @@ public class NewsSitesStructures {
                     ".post--item .post--img ,post--info .title > h2 > a",
                     "body .post--content p")
             );
+            //4
+            add(new NewsScraperSkeleton(new Domain("https://www.aljazeera.com/",
+                    "Al Jazeera is an independent news organization funded in part by the Qatari government.",
+                    "https://www.aljazeera.com/assets/images/aj-logo-lg-124.png"),
+                    "https://www.aljazeera.com/news",
+                    ".topics-sec-block",
+                    ".topics-sec-item",
+                    ".topics-sec-item-img a .img-responsive",
+                    ".topics-sec-item-img > a",
+                    "data-src",
+                    ".topics-sec-item-p",
+                    ".article-p-wrapper p"
+            ));
+            //5
+            add(new NewsScraperSkeleton(new Domain("https://www.aljazeera.com/",
+                    "Al Jazeera is an independent news organization funded in part by the Qatari government.",
+                    "https://www.aljazeera.com/assets/images/aj-logo-lg-124.png"),
+                    "https://www.aljazeera.com/topics/regions/asia.html",
+                    ".topics-sec-block",
+                    ".topics-sec-item",
+                    ".topics-sec-item-img a .img-responsive",
+                    ".topics-sec-item-img > a",
+                    "data-src",
+                    ".topics-sec-item-p",
+                    ".article-p-wrapper p"
+            ));
+            //6
+            add(new NewsScraperSkeleton(new Domain("https://www.businessinsider.co.za/",
+                    "Business Insider is a fast-growing business site with deep financial, media, tech, and other industry verticals",
+                    "https://cdn.24.co.za/files/Cms/General/d/7010/3500bcae4ed44ba987b7749db0b4b66e.png"),
+                    "https://www.businessinsider.co.za/trending/",
+                    "#article-slot",
+                    "article",
+                    ".tf-image img",
+                    "div > a",
+                    "src",
+                    ".tf-title-top",
+                    ".articleBody p"
+            ));
 
+            //7
+            add(new NewsScraperSkeleton(new Domain("https://www.businessinsider.co.za/",
+                    "Business Insider is a fast-growing business site with deep financial, media, tech, and other industry verticals",
+                    "https://cdn.24.co.za/files/Cms/General/d/7010/3500bcae4ed44ba987b7749db0b4b66e.png"),
+                    "https://www.businessinsider.co.za/business/",
+                    "#article-slot",
+                    "article",
+                    ".tf-image img",
+                    "div > a",
+                    "src",
+                    ".tf-title-top",
+                    ".articleBody p"
+            ));
+
+            //8
+            add(new NewsScraperSkeleton(new Domain("https://www.businessinsider.co.za/",
+                    "Business Insider is a fast-growing business site with deep financial, media, tech, and other industry verticals",
+                    "https://cdn.24.co.za/files/Cms/General/d/7010/3500bcae4ed44ba987b7749db0b4b66e.png"),
+                    "https://www.businessinsider.co.za/Money-And-Markets/",
+                    "#article-slot",
+                    "article",
+                    ".tf-image img",
+                    "div > a",
+                    "src",
+                    ".tf-title-top",
+                    ".articleBody p"
+            ));
+
+            //9
+            add(new NewsScraperSkeleton(new Domain("https://www.businessinsider.co.za/",
+                    "Business Insider is a fast-growing business site with deep financial, media, tech, and other industry verticals",
+                    "https://cdn.24.co.za/files/Cms/General/d/7010/3500bcae4ed44ba987b7749db0b4b66e.png"),
+                    "https://www.businessinsider.co.za/Tech/",
+                    "#article-slot",
+                    "article",
+                    ".tf-image img",
+                    "div > a",
+                    "src",
+                    ".tf-title-top",
+                    ".articleBody p"
+            ));
+            //10
+            add(new NewsScraperSkeleton(new Domain("https://www.businessinsider.co.za/",
+                    "Business Insider is a fast-growing business site with deep financial, media, tech, and other industry verticals",
+                    "https://cdn.24.co.za/files/Cms/General/d/7010/3500bcae4ed44ba987b7749db0b4b66e.png"),
+                    "https://www.businessinsider.co.za/life/",
+                    "#article-slot",
+                    "article",
+                    ".tf-image img",
+                    "div > a",
+                    "src",
+                    ".tf-title-top",
+                    ".articleBody p"
+            ));
+            //11
+            add(new NewsScraperSkeleton(new Domain("https://www.businessinsider.co.za/",
+                    "Business Insider is a fast-growing business site with deep financial, media, tech, and other industry verticals",
+                    "https://cdn.24.co.za/files/Cms/General/d/7010/3500bcae4ed44ba987b7749db0b4b66e.png"),
+                    "https://www.businessinsider.co.za/travel/",
+                    "#article-slot",
+                    "article",
+                    ".tf-image img",
+                    "div > a",
+                    "src",
+                    ".tf-title-top",
+                    ".articleBody p"
+            ));
+            //12
+            add(new NewsScraperSkeleton(new Domain("https://www.businessinsider.co.za/",
+                    "Business Insider is a fast-growing business site with deep financial, media, tech, and other industry verticals",
+                    "https://cdn.24.co.za/files/Cms/General/d/7010/3500bcae4ed44ba987b7749db0b4b66e.png"),
+                    "https://www.businessinsider.co.za/executive/",
+                    "#article-slot",
+                    "article",
+                    ".tf-image img",
+                    "div > a",
+                    "src",
+                    ".tf-title-top",
+                    ".articleBody p"
+            ));
 
             /**
              * Subscription needs for below sites
