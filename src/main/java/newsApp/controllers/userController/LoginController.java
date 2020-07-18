@@ -27,7 +27,6 @@ import java.util.Map;
 
 @Log4j2
 @Controller
-@RequestMapping("/login")
 public class LoginController {
     private static final String authorizationRequestBaseUri = "oauth2/authorize-client";
     Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
@@ -40,7 +39,7 @@ public class LoginController {
         this.authorizedClientService = authorizedClientService;
     }
 
-    @GetMapping
+    @GetMapping("/login")
     public String get_login(Model model){
         Iterable<ClientRegistration> clientRegistrations = null;
         ResolvableType type = ResolvableType.forInstance(clientRegistrationRepository)
@@ -61,7 +60,7 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/social")
+    @GetMapping("/loginSocial")
     public RedirectView social_login(OAuth2AuthenticationToken authenticationToken, Principal principal){
         log.info("Social login principal: "+ principal.getName());
         OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authenticationToken.getAuthorizedClientRegistrationId(), authenticationToken.getName());
@@ -71,7 +70,7 @@ public class LoginController {
                 .getUserInfoEndpoint()
                 .getUri();
 
-        if (StringUtils.isEmpty(userInfoEndpointUri)){
+        if (!StringUtils.isEmpty(userInfoEndpointUri)){
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.AUTHORIZATION,"Bearer "+client.getAccessToken().getTokenValue());
