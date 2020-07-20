@@ -8,6 +8,7 @@ import newsApp.models.userModels.NUser;
 import newsApp.repo.newsRepo.DomainRepo;
 import newsApp.repo.newsRepo.NewsRepo;
 import newsApp.repo.userRepo.NUserRepository;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -56,12 +57,19 @@ public class NewsService {
 
         Optional<NUser> loggedInUser = userRepository.findById(userID);
 
-        return loggedInUser
-                .map(NUser::getNotLikedDomains)
-                .map(domainNotLiked -> {
-                    if (domainNotLiked.isEmpty()) return newsRepo.findAll(pageRequest);
-                    return newsRepo.findAllByDomainNotIn(getDomainNames(domainNotLiked), pageRequest);
-                }).orElseThrow(() -> new NewsNotFound("No News Found"));
+        try {
+            return loggedInUser
+                    .map(nUser -> nUser.getNotLikedDomains())
+                    .map(domainNotLiked -> {
+                        if (domainNotLiked.isEmpty()) return newsRepo.findAll(pageRequest);
+                        return newsRepo.findAllByDomainNotIn(getDomainNames(domainNotLiked), pageRequest);
+                    }).orElseThrow(() -> new NewsNotFound("No News Found"));
+        }
+        catch (InvalidDataAccessApiUsageException ex){
+            log.error(String.format("Loading news error: %s",ex));
+            return Page.empty();
+        }
+
     }
 
 
@@ -69,12 +77,18 @@ public class NewsService {
         Optional<NUser> loggedInUser = userRepository.findByEmail(userName);
         PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE);
 
+        try {
         return loggedInUser
                 .map(NUser::getNotLikedDomains)
                 .map(domainNotLiked -> {
                     if (domainNotLiked.isEmpty()) return newsRepo.searchNews02(query, Collections.emptySet(),pageRequest);
                     return newsRepo.searchNews02(query,getDomainNames(domainNotLiked),pageRequest);
-                }).orElseThrow(() -> new NewsNotFound("No News Found")); //TODO empty list works????
+                }).orElseThrow(() -> new NewsNotFound("No News Found"));
+        }
+        catch (InvalidDataAccessApiUsageException ex){
+            log.error(String.format("Loading search error: %s",ex));
+            return Page.empty();
+        }
     }
 
 

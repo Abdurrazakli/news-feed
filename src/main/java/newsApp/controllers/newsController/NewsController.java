@@ -9,6 +9,7 @@ import newsApp.services.userService.UserService;
 import org.springframework.data.domain.Page;
 //import org.springframework.messaging.handler.annotation.MessageMapping;
 //import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -44,7 +45,7 @@ public class NewsController {
         return new RedirectView("news");
     }
 
-    @GetMapping("news")
+    @GetMapping("v1/news")
     public String loadByPage(Model model,
                              @RequestParam(value = "page",required = false,defaultValue = "0") Integer page){
         log.info("Main-page GET request worked!");
@@ -55,10 +56,10 @@ public class NewsController {
         return "main-page";
     }
 
-    @GetMapping("v2/news")
+    @GetMapping("news")
     public String loadByPage02(Model model,
-                             @RequestParam(value = "page",required = false,defaultValue = "0") Integer pageNumber, Principal principal, OAuth2AuthenticationToken authentication){
-        NUserDetails nUserDetails = (NUserDetails) principal;
+                               @RequestParam(value = "page",required = false,defaultValue = "0") Integer pageNumber, Authentication auth){
+        NUserDetails nUserDetails = (NUserDetails) auth.getPrincipal();
         log.info("User: "+nUserDetails.toString());
         log.info("Main-page GET request worked!");
 
