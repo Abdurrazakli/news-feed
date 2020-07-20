@@ -10,9 +10,7 @@ import newsApp.repo.userRepo.NUserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -47,7 +45,7 @@ public class UserService {
     }
 
 
-    public void dislikeDomain(UUID id, long domainId) {
+    public void disableDomain(UUID id, long domainId) {
         NUser user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         Domain unlikedDomain = domainRepo.findById(domainId).orElseThrow(DomainNotExists::new);
         Set<Domain> notLikedDomainsByUser = user.getNotLikedDomains();
@@ -58,11 +56,29 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<Domain> getDomainsOfUser(UUID id) {
+    public List<Domain> getActiveDomainsOfUser(UUID id) {
         NUser user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         Set<String> notLikedDomains = user.getNotLikedDomains().stream().map(d -> d.getDomain()).collect(Collectors.toSet());
 
         if(notLikedDomains.size()==0) return domainRepo.findAll();
         else return domainRepo.findAllByDomainNotIn(notLikedDomains);
+    }
+
+    public List<Domain> getDisabledDomainsOfUser(UUID id) {
+        NUser user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        Set<String> disabledDomains = user.getNotLikedDomains().stream().map(d -> d.getDomain()).collect(Collectors.toSet());
+
+        return domainRepo.findAllByDomainIn(disabledDomains);
+    }
+
+    public void enableDomain(UUID id, long domainId) {
+        NUser user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        Domain unlikedDomain = domainRepo.findById(domainId).orElseThrow(DomainNotExists::new);
+        Set<Domain> notLikedDomainsByUser = user.getNotLikedDomains();
+
+        notLikedDomainsByUser.remove(unlikedDomain);
+        user.setNotLikedDomains(notLikedDomainsByUser);
+        log.info("Domain enabled by user!");
+        userRepository.save(user);
     }
 }

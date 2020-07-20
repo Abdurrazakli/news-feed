@@ -51,7 +51,6 @@ public class NewsController {
         log.info("Main-page GET request worked!");
         Page<News> pages = newsService.loadLatestNewsPages(page);
 
-
         model.addAttribute("pages",pages);
         return "main-page";
     }
@@ -62,9 +61,6 @@ public class NewsController {
         NUserDetails nUserDetails = (NUserDetails) auth.getPrincipal();
         log.info("User: "+nUserDetails.toString());
         log.info("Main-page GET request worked!");
-
-
-
 
         Page<News> pages = newsService.loadLatestNewsPages_02(pageNumber,nUserDetails.getId());
 

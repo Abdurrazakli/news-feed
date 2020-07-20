@@ -38,7 +38,7 @@
 
 <section>
     <div class="add-search">
-        <p class="details">Disable news from specific websites:</p>
+        <p class="details">Enable news from specific websites:</p>
         <label class="main-header-search-wrapper">
             <input type="search" class="main-header-search" placeholder="Search">
             <img src="/img/search-icon.svg" alt="Search Icon">
@@ -62,7 +62,7 @@
                 <p class="tab-description" th:text="${domain.getDomainInfo()}"></p>
 
                 <div class="button">
-                    <form th:id="'formDomain'+${domain.getId()}"  method="post" th:action="@{/disable-news/{id}(id=${domain.id})}">
+                    <form th:id="'formDomain'+${domain.getId()}"  method="post" th:action="@{/enable-news/{id}(id=${domain.id})}">
                         <img class="icon" src="/img/vec.png">
                         <input type="submit" class="button-text" value="Dissmiss this author">
 <!--                        <p class="button-text">Dissmiss this author</p>-->

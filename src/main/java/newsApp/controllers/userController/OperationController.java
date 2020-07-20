@@ -27,7 +27,7 @@ public class OperationController {
     @GetMapping("/disable-news")
     public String getDisableNewsPage(Authentication auth, Model model){
         NUserDetails user = (NUserDetails) auth.getPrincipal();
-        List<Domain> domains = userService.getDomainsOfUser(user.getId());
+        List<Domain> domains = userService.getActiveDomainsOfUser(user.getId());
         log.info("User's domain list returned!");
         model.addAttribute("allDomains",domains);
         return "disable-news";
@@ -40,7 +40,32 @@ public class OperationController {
     public RedirectView getDisableNewsPage(@PathVariable("domainId") long domainId, Authentication auth){
         NUserDetails user = (NUserDetails) auth.getPrincipal();
 
-        userService.dislikeDomain(user.getId(),domainId);
+        userService.disableDomain(user.getId(),domainId);
         return new RedirectView("/disable-news");
+    }
+
+    /**
+     * http://localhost:8080/disable-news
+     *@return
+     */
+    @GetMapping("/enable-news")
+    public String getEnableNewsPage(Authentication auth, Model model){
+        NUserDetails user = (NUserDetails) auth.getPrincipal();
+
+        List<Domain> domains = userService.getDisabledDomainsOfUser(user.getId());
+        log.info("User's disabled list returned!"+domains);
+        model.addAttribute("allDomains",domains);
+        return "enable-news";
+    }
+    /**
+     * http://localhost:8080/disable-news/{id}
+     *@return
+     */
+    @PostMapping("/enable-news/{domainId}")
+    public RedirectView getEnableNewsPage(@PathVariable("domainId") long domainId, Authentication auth){
+        NUserDetails user = (NUserDetails) auth.getPrincipal();
+
+        userService.enableDomain(user.getId(),domainId);
+        return new RedirectView("/enable-news");
     }
 }

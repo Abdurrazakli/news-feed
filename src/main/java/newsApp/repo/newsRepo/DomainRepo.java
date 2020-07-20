@@ -10,5 +10,6 @@ import java.util.Set;
 public interface DomainRepo extends JpaRepository<Domain,Long> {
     Optional<Domain> findByDomain(String domain);
     List<Domain> findAllByDomainNotIn(Set<String> notLiked);
+    List<Domain> findAllByDomainIn(Set<String> disabled);
 
 }
