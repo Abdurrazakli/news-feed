@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 @Log4j2
 @Service
 public class ScraperService {
+    private static final String HREF = "href";
     private final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML," +
             "like Gecko) Chrome/51.0.2704.103 Safari/537.36";
     private final DetailedNewsRepo detailedNewsRepo;
@@ -81,19 +82,16 @@ public class ScraperService {
                 { Domain domain = domainRepo.findByDomain(o.getSkeleton().getDomain().getDomain()).orElseThrow(DomainNotExists::new);
                     return StreamOfSection(o).parallel().flatMap(sec ->
                         StreamOfContent(o, sec).parallel().map(content -> {
-                            try {
-                                String title = content.select(o.getSkeleton().getPathToTitle()).text();  // text?? look back, add attr name too;
-                                String rowImg = content.select(o.getSkeleton().getPathToImg()).attr(o.getSkeleton().getImageAttr());
-                                String image = formatData(rowImg,o.getSkeleton().getDomain().getDomain());
-                                String rowNewsLink = content.select(o.getSkeleton().getPathToNewsLink()).attr("href");
-                                String newsLink = formatData(rowNewsLink,o.getSkeleton().getDomain().getDomain());
-                                return new News(title, newsLink, o.getSkeleton().getAddress(),domain, image, LocalDateTime.now());
-                            } catch (Exception ignored) {
-                                log.error("Website didn't response! Connection error!");
-                            }
-                            return new News("","","",domain,"",LocalDateTime.now());
-                        }));}
-        )
+                            String title = content.select(o.getSkeleton().getPathToTitle()).text();  // text?? look back, add attr name too;
+                            String rowImg = content.select(o.getSkeleton().getPathToImg()).attr(o.getSkeleton().getImageAttr());
+                            String image = formatData(rowImg,o.getSkeleton().getDomain().getDomain());
+                            String rowNewsLink = content.select(o.getSkeleton().getPathToNewsLink()).attr(HREF);
+                            String newsLink = formatData(rowNewsLink,o.getSkeleton().getDomain().getDomain());
+                            return new News(title, newsLink, o.getSkeleton().getAddress(),domain, image, LocalDateTime.now());
+                        })
+                    );
+                }
+            )
                 .filter(News::isNull)
                 .collect(Collectors.toList());
     }
