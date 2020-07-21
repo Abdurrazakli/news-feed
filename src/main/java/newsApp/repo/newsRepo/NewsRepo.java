@@ -1,5 +1,6 @@
 package newsApp.repo.newsRepo;
 
+import newsApp.models.newsModel.Domain;
 import newsApp.models.newsModel.News;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,7 @@ import java.util.Set;
 public interface NewsRepo extends JpaRepository<News,Long> {
     Page<News> findAll(Pageable pageable);
 
-    Page<News> findAllByDomainNotIn(Set<Long> notLiked, Pageable pageable);
+    Page<News> findAllByDomainNotIn(Set<Domain> notLiked, Pageable pageable);
 
 
     @Query(value = " SELECT news from Domain domain\n" +

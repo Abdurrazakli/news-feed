@@ -60,7 +60,7 @@ public class NewsService {
                     .map(nUser -> nUser.getNotLikedDomains())
                     .map(domainNotLiked -> {
                         if (domainNotLiked.isEmpty()) return newsRepo.findAll(pageRequest);
-                        return newsRepo.findAllByDomainNotIn(getDomainIds(domainNotLiked), pageRequest);
+                        return newsRepo.findAllByDomainNotIn(domainNotLiked, pageRequest);
                     }).orElseThrow(() -> new NewsNotFound("No News Found"));
         }
         catch (InvalidDataAccessApiUsageException ex){
