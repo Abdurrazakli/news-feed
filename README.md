@@ -39,3 +39,24 @@ It is used Spring Boot,Spring MVC for backend. Spring Security customized for us
 Running in local you need to update credentials in application.properties. Default port is 5000. 
 command to build project: **mvn clean install**
 
+## End points
+**Login**
+Custom login GET -> /login
+OAuth2 login GET -> /loginSocial
+**To disable/enable news**
+Disable pages GET ->/disable-news
+Disable author POST -> /disable-news/{domainId}
+Enable pages GET ->/enable-news
+Enable author POST -> /enable-news/{domainId}
+**Loading News**
+All news GET -> /news
+Deatails of news GET -> /news/{newsID}
+Search news POST -> /news/search
+**User**
+GET -> /user/change-password
+GET -> /user/reset-password
+POST -> /user/reset-password
+POST -> /user/save-password
+GET -> /user/verify-account
+GET -> /registration
+Manual Scrap Checking -> /v2/scrap
