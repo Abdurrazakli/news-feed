@@ -54,15 +54,13 @@ public class NewsService {
 
     public Page<News> loadLatestNewsPages_02(int pageNumber, UUID userID) {
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE, Sort.by(PARAM_PUBLISHED_DATE).descending());
-
         Optional<NUser> loggedInUser = userRepository.findById(userID);
-
         try {
             return loggedInUser
                     .map(nUser -> nUser.getNotLikedDomains())
                     .map(domainNotLiked -> {
                         if (domainNotLiked.isEmpty()) return newsRepo.findAll(pageRequest);
-                        return newsRepo.findAllByDomainNotIn(getDomainNames(domainNotLiked), pageRequest);
+                        return newsRepo.findAllByDomainNotIn(getDomainIds(domainNotLiked), pageRequest);
                     }).orElseThrow(() -> new NewsNotFound("No News Found"));
         }
         catch (InvalidDataAccessApiUsageException ex){
@@ -96,6 +94,13 @@ public class NewsService {
         return domains
                 .stream()
                 .map(Domain::getDomain)
+                .collect(Collectors.toSet());
+    }
+
+    private Set<Long> getDomainIds(Set<Domain> domains){
+        return domains
+                .stream()
+                .map(Domain::getId)
                 .collect(Collectors.toSet());
     }
 }

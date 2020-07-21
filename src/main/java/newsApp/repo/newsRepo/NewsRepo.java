@@ -14,7 +14,7 @@ import java.util.Set;
 public interface NewsRepo extends JpaRepository<News,Long> {
     Page<News> findAll(Pageable pageable);
 
-    Page<News> findAllByDomainNotIn(Set<String> notLiked, Pageable pageable);
+    Page<News> findAllByDomainNotIn(Set<Long> notLiked, Pageable pageable);
 
 
     @Query(value = " SELECT news from Domain domain\n" +

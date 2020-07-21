@@ -172,6 +172,19 @@ public class NewsSitesStructures {
                     ".tf-title-top",
                     ".articleBody p"
             ));
+            //13
+            add(new NewsScraperSkeleton(new Domain("https://techstartups.com/",
+                    "TechStartups.com is an exclusive platform dedicated to covering technology startups.",
+                    "https://techstartups.com/wp-content/uploads/2017/12/techstartups.com-logo-v3.png"),
+                    "https://techstartups.com/",
+                    "body #wrapper .ppb_wrapper .inner_wrapper .post_filter_wrapper",
+                    ".post",
+                    ".post_img > a > img",
+                    ".post_header_title > h5 > a",
+                    "src",
+                    ".post_header_title > h5 > a",
+                    "body .single p"
+            ));
 
             /**
              * Subscription needs for below sites
