@@ -26,10 +26,10 @@ import java.util.*;
 @RequestMapping("/")
 public class NewsController {
 
+    private static final String EMAIL = "email";
+    private static final String NAME = "name";
     private final UserService userService;
     private final NewsService newsService;
-    private static final String authorizationRequestBaseUri = "oauth2/authorize-client";
-    Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
     private final ClientRegistrationRepository clientRegistrationRepository;
     private final OAuth2AuthorizedClientService authorizedClientService;
 
@@ -58,13 +58,25 @@ public class NewsController {
     @GetMapping("news")
     public String loadByPage02(Model model,
                                @RequestParam(value = "page",required = false,defaultValue = "0") Integer pageNumber, Authentication auth){
-        NUserDetails nUserDetails = (NUserDetails) auth.getPrincipal();
-        log.info("User: "+nUserDetails.toString());
+        String email = null;
+        String name;
+        if ((auth instanceof OAuth2AuthenticationToken)) {
+            email = userService.getSpecificDataFromOauth2((OAuth2AuthenticationToken) auth, EMAIL);
+            name = userService.getSpecificDataFromOauth2((OAuth2AuthenticationToken) auth, NAME);
+        } else {
+            email = auth.getName();
+            NUserDetails userDetails = (NUserDetails) auth.getPrincipal();
+            name = userDetails.getFullName();
+        }
+
         log.info("Main-page GET request worked!");
 
-        Page<News> pages = newsService.loadLatestNewsPages_02(pageNumber,nUserDetails.getId());
+        log.info("User email " + email);
+        log.info("User name " + name);
 
+        Page<News> pages = newsService.loadLatestNewsPages_02(pageNumber,email);
         model.addAttribute("pages",pages);
+        model.addAttribute("username",name);
         return "main-page";
     }
 

@@ -1,6 +1,9 @@
 package newsApp.controllers.userController;
 
 import lombok.extern.log4j.Log4j2;
+import newsApp.models.userModels.NUser;
+import newsApp.services.userService.UserService;
+import newsApp.services.userService.RegistrationService;
 import org.springframework.core.ResolvableType;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,8 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -31,10 +32,12 @@ public class LoginController {
     private static final String authorizationRequestBaseUri = "oauth2/authorize-client";
     Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
 
+    private final RegistrationService registrationService;
     private final ClientRegistrationRepository clientRegistrationRepository;
     private final OAuth2AuthorizedClientService authorizedClientService;
 
-    public LoginController(ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientService authorizedClientService) {
+    public LoginController(UserService userService, RegistrationService registrationService, ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientService authorizedClientService) {
+        this.registrationService = registrationService;
         this.clientRegistrationRepository = clientRegistrationRepository;
         this.authorizedClientService = authorizedClientService;
     }
@@ -78,7 +81,14 @@ public class LoginController {
             HttpEntity<String> entity = new HttpEntity<>("", headers);
             ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
             Map userAttributes = response.getBody();
-            log.info(userAttributes.get("name"));
+            String name = userAttributes.get("name").toString();
+            String email = userAttributes.get("email").toString();
+            log.info(email);
+            log.info(name);
+            NUser nUser = new NUser(name, email, null, true);
+            nUser.setRoles(new String[]{"USER"});
+            registrationService.registerOAuthUser(nUser);
+            log.info("Login process finished for oauth2");
         }
 
         return new RedirectView("/news");

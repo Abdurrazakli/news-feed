@@ -52,12 +52,12 @@ public class NewsService {
         return newsRepo.findById(newsId).orElseThrow(()->new NewsNotFound("There is no news for this id"));
     }
 
-    public Page<News> loadLatestNewsPages_02(int pageNumber, UUID userID) {
+    public Page<News> loadLatestNewsPages_02(int pageNumber, String email) {
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE, Sort.by(PARAM_PUBLISHED_DATE).descending());
-        Optional<NUser> loggedInUser = userRepository.findById(userID);
+        Optional<NUser> loggedInUser = userRepository.findByEmail(email);
         try {
             return loggedInUser
-                    .map(nUser -> nUser.getNotLikedDomains())
+                    .map(NUser::getNotLikedDomains)
                     .map(domainNotLiked -> {
                         if (domainNotLiked.isEmpty()) return newsRepo.findAll(pageRequest);
                         return newsRepo.findAllByDomainNotIn(domainNotLiked, pageRequest);

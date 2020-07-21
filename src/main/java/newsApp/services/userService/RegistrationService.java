@@ -55,4 +55,10 @@ public class RegistrationService {
     private String constructBody(String token){
         return String.format("Please click <a href = \"%s/user/verify-account?token=%s\">here</a> to verify your account!", CONTEXT_PATH,token);
     }
+
+    public void registerOAuthUser(NUser nUser) {
+        if (!hasUserRegisteredBefore(nUser.getEmail())){
+            userRepo.save(nUser);
+        }
+    }
 }
