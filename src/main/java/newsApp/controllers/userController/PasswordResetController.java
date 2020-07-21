@@ -8,6 +8,8 @@ import newsApp.repo.userRepo.NUserRepository;
 import newsApp.services.userService.EmailSenderService;
 import newsApp.services.userService.UserService;
 import newsApp.services.userService.UserTokenizeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +30,10 @@ public class PasswordResetController {
     private final EmailSenderService senderService;
     private final UserTokenizeService userTokenizeService;
     private final UserService userService;
-    private final String contextPath = "http://localhost:8080"; // TODO In Production will not work cget host from heroku env;
     private final String subject = "Reset password";
+
+    @Autowired
+    Environment env;
 
     public PasswordResetController(EmailSenderService senderService, NUserRepository repository,
                                    UserTokenizeService userTokenizeService, UserService userService) {
@@ -64,6 +68,7 @@ public class PasswordResetController {
     }
 
     private String constructMessageBody(String token){
+        String contextPath = env.getProperty("my.webdomain");
         return "Reset your password via this link:\r\n" + contextPath + "/user/change-password?token=" + token + "\n\nNote: link will be valid for 4 hours";
     }
 

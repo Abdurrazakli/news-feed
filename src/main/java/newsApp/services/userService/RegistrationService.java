@@ -6,6 +6,8 @@ import newsApp.models.formData.FormRegisterData;
 import newsApp.models.userModels.NUser;
 
 import newsApp.repo.userRepo.NUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +20,11 @@ public class RegistrationService {
     private final NUserRepository userRepo;
     private final PasswordEncoder encoder;
     private final EmailSenderService mailService;
-    private final String CONTEXT_PATH = "http:/localhost:8080";
     private final UserTokenizeService tokenizeService;
     private final String SUBJECT = "Verify your account";
 
+    @Autowired
+    private Environment env;
     public RegistrationService(NUserRepository userRepo, PasswordEncoder encoder, EmailSenderService mailService, UserTokenizeService tokenizeService) {
         this.userRepo = userRepo;
         this.encoder = encoder;
@@ -53,7 +56,8 @@ public class RegistrationService {
     }
 
     private String constructBody(String token){
-        return String.format("Please click <a href = \"%s/user/verify-account?token=%s\">here</a> to verify your account!", CONTEXT_PATH,token);
+        String CONTEXT_PATH = env.getProperty("my.webdomain");
+        return String.format("Please click via this link to verify your account:\r\n %s/user/verify-account?token=%s ", CONTEXT_PATH,token);
     }
 
     public void registerOAuthUser(NUser nUser) {
