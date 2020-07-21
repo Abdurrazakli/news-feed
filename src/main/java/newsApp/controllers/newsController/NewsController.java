@@ -58,7 +58,7 @@ public class NewsController {
     @GetMapping("news")
     public String loadByPage02(Model model,
                                @RequestParam(value = "page",required = false,defaultValue = "0") Integer pageNumber, Authentication auth){
-        String email = null;
+        String email;
         String name;
         if ((auth instanceof OAuth2AuthenticationToken)) {
             email = userService.getSpecificDataFromOauth2((OAuth2AuthenticationToken) auth, EMAIL);
@@ -100,22 +100,25 @@ public class NewsController {
     }
 
     @PostMapping("news/search")
-    public String search_news(@RequestParam("query") String query, Model model, Principal principal){
-        log.info(principal.getName());
-        Page<News> searchRes = newsService.search(query, principal.getName());
-        model.addAttribute("pages",searchRes );
+    public String search_news(@RequestParam("query") String query, Model model, Authentication auth){
 
+        String email;
+        String name;
+        if ((auth instanceof OAuth2AuthenticationToken)) {
+            email = userService.getSpecificDataFromOauth2((OAuth2AuthenticationToken) auth, EMAIL);
+            name = userService.getSpecificDataFromOauth2((OAuth2AuthenticationToken) auth, NAME);
+        } else {
+            email = auth.getName();
+            NUserDetails userDetails = (NUserDetails) auth.getPrincipal();
+            name = userDetails.getFullName();
+        }
+        log.info("Main-page GET request worked!");
+        log.info("User email " + email);
+        log.info("User name " + name);
+
+        Page<News> searchRes = newsService.search(query, email);
+        model.addAttribute("pages",searchRes );
+        model.addAttribute("username",name);
         return "main-page";
     }
-
-
-//TODO remove this if you dont need
-//    @MessageMapping("/search")  // receive => /app/search
-//    @SendTo("/queue/endpoint")  // send =>  to broker
-//    public List<News> search_news(String query, Principal principal){
-//        log.info("Query: " + query);
-//        log.info("Principal name: "+principal.getName());
-//        newsService.search(query,principal.getName());
-//        return new ArrayList<>(Arrays.asList(new News("title", "newsLink", "mewAddress", new Domain("domain", "domain info", "domainlink"), "fjef", LocalDateTime.now())));
-//    }
 }

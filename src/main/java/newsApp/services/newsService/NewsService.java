@@ -79,7 +79,7 @@ public class NewsService {
         return loggedInUser
                 .map(NUser::getNotLikedDomains)
                 .map(domainNotLiked -> {
-                    if (domainNotLiked.isEmpty()) return newsRepo.searchNews02(query, Collections.emptySet(),pageRequest);
+                    if (domainNotLiked.isEmpty()) return newsRepo.searchForAllNews(query,pageRequest);
                     return newsRepo.searchNews02(query,getDomainNames(domainNotLiked),pageRequest);
                 }).orElseThrow(() -> new NewsNotFound("No News Found"));
         }

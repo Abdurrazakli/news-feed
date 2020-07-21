@@ -25,4 +25,11 @@ public interface NewsRepo extends JpaRepository<News,Long> {
             "           ORDER BY (countOfString(?1,detailedNews.content) + countOfString(?1,news.title)) DESC")
     Page<News> searchNews02(String query, Set<String> notLikedDomains, Pageable pageable);
 
+    @Query(value = " SELECT news from Domain domain\n" +
+            "           left outer join domain.news as news left outer join\n" +
+            "            news.detailedNews as detailedNews  where " +
+            "((countOfString(?1,detailedNews.content) + countOfString(?1,news.title)) > 0)\n" +
+            "           ORDER BY (countOfString(?1,detailedNews.content) + countOfString(?1,news.title)) DESC")
+    Page<News> searchForAllNews(String query, Pageable pageable);
+
 }
