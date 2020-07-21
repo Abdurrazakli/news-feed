@@ -9,7 +9,10 @@ import java.util.Set;
 
 public interface DomainRepo extends JpaRepository<Domain,Long> {
     Optional<Domain> findByDomain(String domain);
+    List<Domain> findAllByDomainContainingIgnoreCase(String query);
     List<Domain> findAllByDomainNotIn(Set<String> notLiked);
     List<Domain> findAllByDomainIn(Set<String> disabled);
+    List<Domain> findAllByDomainInAndDomainContainingIgnoreCase(Set<String> notLiked,String query);
+    List<Domain> findAllByDomainNotInAndDomainContainingIgnoreCase(Set<String> notLiked,String query);
 
 }

@@ -119,4 +119,22 @@ public class UserService {
         } else throw new UserNotFoundException();
 
     }
+
+    public List<Domain> getDisabledDomainsOfUserContains(String email, String query) {
+        NUser user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+
+        Set<String> disabledDomains = user.getNotLikedDomains()
+                .stream()
+                .map(Domain::getDomain)
+                .collect(Collectors.toSet());
+
+        return domainRepo.findAllByDomainInAndDomainContainingIgnoreCase(disabledDomains,query);
+    }
+
+    public List<Domain> getActiveDomainsOfUserContains(String email, String query) {
+        NUser user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        Set<String> notLikedDomains = user.getNotLikedDomains().stream().map(d -> d.getDomain()).collect(Collectors.toSet());
+        if(notLikedDomains.size()==0) return domainRepo.findAllByDomainContainingIgnoreCase(query);
+        else return domainRepo.findAllByDomainNotInAndDomainContainingIgnoreCase(notLikedDomains,query);
+    }
 }

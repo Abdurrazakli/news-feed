@@ -104,4 +104,49 @@ public class OperationController {
         userService.enableDomain(email,domainId);
         return new RedirectView("/enable-news");
     }
+
+    @GetMapping("/enable-news/search")
+    public String searchInDisabledDomains(@RequestParam("query") String query, Model model, Authentication auth){
+
+        String email = null;
+        String name;
+        if ((auth instanceof OAuth2AuthenticationToken)) {
+            email = userService.getSpecificDataFromOauth2((OAuth2AuthenticationToken) auth, EMAIL);
+            name = userService.getSpecificDataFromOauth2((OAuth2AuthenticationToken) auth, NAME);
+        } else {
+            email = auth.getName();
+            NUserDetails userDetails = (NUserDetails) auth.getPrincipal();
+            name = userDetails.getFullName();
+        }
+
+        log.info("User email " + email);
+
+        List<Domain> domains = userService.getDisabledDomainsOfUserContains(email,query);
+        log.info("User's enable search list returned!"+domains);
+        model.addAttribute("allDomains",domains);
+        model.addAttribute("username",name);
+        return "enable-news";
+    }
+
+    @GetMapping("/disable-news/search")
+    public String searchInEnabledDomains(@RequestParam("query") String query, Model model, Authentication auth){
+
+        String email = null;
+        String name;
+        if ((auth instanceof OAuth2AuthenticationToken)) {
+            email = userService.getSpecificDataFromOauth2((OAuth2AuthenticationToken) auth, EMAIL);
+            name = userService.getSpecificDataFromOauth2((OAuth2AuthenticationToken) auth, NAME);
+        } else {
+            email = auth.getName();
+            NUserDetails userDetails = (NUserDetails) auth.getPrincipal();
+            name = userDetails.getFullName();
+        }
+        log.info("User email " + email);
+
+        List<Domain> domains = userService.getActiveDomainsOfUserContains(email,query);
+        log.info("User's disable search list returned!"+domains);
+        model.addAttribute("allDomains",domains);
+        model.addAttribute("username",name);
+        return "disable-news";
+    }
 }
