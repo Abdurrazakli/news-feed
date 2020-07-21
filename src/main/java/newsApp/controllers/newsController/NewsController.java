@@ -82,12 +82,20 @@ public class NewsController {
 
     @GetMapping("news/{newsId}")
     public String getOneNewsDetailed(@PathVariable("newsId") long newsId,
-                                     Model model) throws NewsNotFound {
+                                     Model model, Authentication auth) throws NewsNotFound {
+        String name;
+        if ((auth instanceof OAuth2AuthenticationToken)) {
+            name = userService.getSpecificDataFromOauth2((OAuth2AuthenticationToken) auth, NAME);
+        } else {
+            NUserDetails userDetails = (NUserDetails) auth.getPrincipal();
+            name = userDetails.getFullName();
+        }
+
         log.info(String.format("NewsId:%d sent to service!",newsId));
         News newsById = newsService.getNewsById(newsId);
 
         model.addAttribute("news",newsById);
-
+        model.addAttribute("username",name);
         return "open-tab";
     }
 
