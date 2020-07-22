@@ -88,7 +88,7 @@
 
 
                         <li class="page-item active" >
-                            <a class="page-link active" th:href="@{/news(page=${pages.getNumber()})}" th:text="${pages.getNumber()}"></a>
+                            <a class="page-link active" th:href="@{/news(page=${pages.getNumber()})}" th:text="${pages.getNumber()+1}"></a>
                         </li>
 
                         <li th:if="${pages.hasNext()}" class="page-item">

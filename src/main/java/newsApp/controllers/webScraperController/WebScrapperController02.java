@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 
 @Log4j2
-@RestController
+//@RestController
 @RequestMapping("v2/scrap")
 public class WebScrapperController02 {
     private final ScraperService service;
